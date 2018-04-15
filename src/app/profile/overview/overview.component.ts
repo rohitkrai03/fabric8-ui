@@ -21,6 +21,7 @@ export class OverviewComponent implements OnDestroy, OnInit {
   subscriptions: Subscription[] = [];
   spaces: Space[] = [];
   viewingOwnAccount: boolean;
+  selectedTab: number = 1;
 
   constructor(
       private contexts: Contexts,
@@ -59,5 +60,10 @@ export class OverviewComponent implements OnDestroy, OnInit {
 
   routeToUpdateProfile(): void {
     this.router.navigate(['/', this.context.user.attributes.username, '_update']);
+  }
+
+  changeTab(tab): void {
+    this.selectedTab = tab;
+    console.log(this.selectedTab);
   }
 }
