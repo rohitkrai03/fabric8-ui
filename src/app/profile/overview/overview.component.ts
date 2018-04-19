@@ -64,6 +64,5 @@ export class OverviewComponent implements OnDestroy, OnInit {
 
   changeTab(tab): void {
     this.selectedTab = tab;
-    console.log(this.selectedTab);
   }
 }
