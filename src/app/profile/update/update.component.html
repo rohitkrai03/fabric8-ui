@@ -1,40 +1,42 @@
 <div id="overview" class="container-fluid content">
-  <div class="row profile-edit-masthead">
-    <div class="row">
-      <div class="col-xs-12 col-md-10 col-md-offset-1 alert alert-warning">
+  <div class="row email-alert padding-top-20">
+    <div class="col-xs-12 col-md-10 col-md-offset-1">
+      <div class="alert alert-warning">
         <span class="pficon pficon-warning-triangle-o"></span>
         <strong>Your email address is unverified.</strong> Please verify your email address by clicking the link we sent you.
         <a href="javascript:void(0)" (click)="sendEmailVerificationLink()" class="alert-link pull-right">Resend verification link</a>
       </div>
     </div>
-    <div class="row">
-      <div class="col-xs-12 col-md-1">
-          <div *ngIf="(imageUrl !== undefined && imageUrl.length !== 0); then showImageUrl else addImageUrl"></div>
-        <ng-template #showImageUrl>
-          <img src="{{imageUrl}}" class="img-responsive profile-img icon-user">
-        </ng-template>
-        <ng-template #addImageUrl>
-          <img src="../../../assets/images/profile-user.png" class="img-responsive profile-img-none icon-user">
-        </ng-template>
-      </div>
+  </div>
+  <div class="row profile-edit padding-top-20">
+    <div class="col-xs-12 col-md-1">
+        <div *ngIf="(imageUrl !== undefined && imageUrl.length !== 0); then showImageUrl else addImageUrl"></div>
+      <ng-template #showImageUrl>
+        <img src="{{imageUrl}}" class="img-responsive profile-img icon-user">
+      </ng-template>
+      <ng-template #addImageUrl>
+        <img src="../../../assets/images/profile-user.png" class="img-responsive profile-img-none icon-user">
+      </ng-template>
+    </div>
 
-      <div class="col-xs-12 col-md-11">
-        <div class="col-xs-12 col-md-12 padding-bottom-15">
-          <p class="col-md-12"><label for="previewImg" class="control-label padding-left-none">Profile photo</label></p>
-          <p class="col-md-3 link-profile-photo">
-            <a href="javascript:void(0)" (click)="linkGravatarImageUrl()">
-              <span class="fa fa-gravatar"></span> Import from Gravatar
-            </a>
-          </p>
-          <p class="col-md-3 link-profile-photo">
-            <a href="javascript:void(0)" (click)="linkGithubImageUrl()">
-              <span class="fa fa-github"></span> Import from Github
-            </a>
-          </p>
-        </div>
-        <form class="col-xs-12 col-md-9" role="form" #profileForm="ngForm">
-          <div class="col-xs-12 col-md-7">
-              <div class="form-group">
+    <div class="col-xs-12 col-md-11">
+      <div class="row padding-bottom-15">
+        <p class="col-xs-12"><label for="previewImg" class="control-label padding-left-none">Profile photo</label></p>
+        <p class="col-md-2 link-profile-photo">
+          <a href="javascript:void(0)" (click)="linkGravatarImageUrl()">
+            <span class="fa fa-gravatar"></span> Import from Gravatar
+          </a>
+        </p>
+        <p class="col-md-2 link-profile-photo">
+          <a href="javascript:void(0)" (click)="linkGithubImageUrl()">
+            <span class="fa fa-github"></span> Import from Github
+          </a>
+        </p>
+      </div>
+      <div class="row">
+        <form role="form" #profileForm="ngForm">
+          <div class="col-xs-12 col-md-4">
+            <div class="form-group">
               <label for="fullName" class="control-label">Name</label>
               <div [ngClass]="{'has-error': fullNameInvalid}">
                 <input type="text" class="form-control" id="fullName" name="fullName"
@@ -97,7 +99,7 @@
                 (click)="routeToProfile()">Cancel</button>
             </div>
           </div>
-          <div class="col-xs-12 col-md-5">
+          <div class="col-xs-12 col-md-4">
             <div class="form-group">
               <label for="bioInput">Bio</label>
               <textarea class="form-control" id="bioInput" name="bioInput" rows="8" #_bio
@@ -152,42 +154,44 @@
           </div>
         </form>
 
-        <form class="col-xs-12 col-md-3" role="form" #advancedForm="ngForm">
-          <div class="form-group">
-            <label for="token" class="control-label">Personal Access Token</label>
-            <div class="panel panel-default" id="token">
-              <div class="panel-heading token-heading-cont">
-                <i class="padding-top-13 fa"
-                  [ngClass]="{'fa-angle-down': tokenPanelOpen, 'fa-angle-right': !tokenPanelOpen}"
-                  (click)="toggleTokenPanel()"></i>
-                <p class="token-heading padding-top-10 padding-right-15 margin-right-5"
-                  [ngClass]="{'padding-left-11': tokenPanelOpen, 'padding-left-15': !tokenPanelOpen}">{{token}}</p>
-                <button class="btn btn-lg btn-default"
-                        (click)="copyTokenToClipboard()">Copy</button>
-              </div>
-              <div class="panel-body margin-left-15 margin-right-15" *ngIf="tokenPanelOpen">
-                <p class="token-body padding-left-5 padding-right-5">{{token}}</p>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-xs-12">
-              <button class="btn btn-default" (click)="updateTenant()" [disabled]="updateTenantStatus === TenantUpdateStatus.Updating">Update Tenant</button>
-              <button class="btn btn-default" (click)="cleanupTenant()">Reset Environment</button>
-            </div>
-            <div class="col-xs-12 update-tenant-status padding-top-20" *ngIf="updateTenantStatus !== TenantUpdateStatus.NoAction">
-              <div *ngIf="updateTenantStatus === TenantUpdateStatus.Updating">
-                <span class="spinner spinner-xs spinner-inline fa-spin"></span>
-                <span class="">Updating tenant</span>
-              </div>
-              <div *ngIf="updateTenantStatus === TenantUpdateStatus.Success">
-                <div class="text-success">
-                  <span class="fa fa-check update-icon-padding"></span>Updated tenant
+        <form role="form" #advancedForm="ngForm">
+          <div class="col-xs-12 col-md-3">
+            <div class="form-group">
+              <label for="token" class="control-label">Personal Access Token</label>
+              <div class="panel panel-default" id="token">
+                <div class="panel-heading token-heading-cont">
+                  <i class="padding-top-13 fa"
+                    [ngClass]="{'fa-angle-down': tokenPanelOpen, 'fa-angle-right': !tokenPanelOpen}"
+                    (click)="toggleTokenPanel()"></i>
+                  <p class="token-heading padding-top-10 padding-right-15 margin-right-5"
+                    [ngClass]="{'padding-left-11': tokenPanelOpen, 'padding-left-15': !tokenPanelOpen}">{{token}}</p>
+                  <button class="btn btn-lg btn-default"
+                          (click)="copyTokenToClipboard()">Copy</button>
+                </div>
+                <div class="panel-body margin-left-15 margin-right-15" *ngIf="tokenPanelOpen">
+                  <p class="token-body padding-left-5 padding-right-5">{{token}}</p>
                 </div>
               </div>
-              <div *ngIf="updateTenantStatus === TenantUpdateStatus.Failure">
-                <div class="text-danger">
-                  <span class="pficon-close update-icon-padding"></span>Failed to update tenant
+            </div>
+            <div class="row">
+              <div class="col-xs-12">
+                <button class="btn btn-default" (click)="updateTenant()" [disabled]="updateTenantStatus === TenantUpdateStatus.Updating">Update Tenant</button>
+                <button class="btn btn-default" (click)="cleanupTenant()">Reset Environment</button>
+              </div>
+              <div class="col-xs-12 update-tenant-status padding-top-20" *ngIf="updateTenantStatus !== TenantUpdateStatus.NoAction">
+                <div *ngIf="updateTenantStatus === TenantUpdateStatus.Updating">
+                  <span class="spinner spinner-xs spinner-inline fa-spin"></span>
+                  <span class="">Updating tenant</span>
+                </div>
+                <div *ngIf="updateTenantStatus === TenantUpdateStatus.Success">
+                  <div class="text-success">
+                    <span class="fa fa-check update-icon-padding"></span>Updated tenant
+                  </div>
+                </div>
+                <div *ngIf="updateTenantStatus === TenantUpdateStatus.Failure">
+                  <div class="text-danger">
+                    <span class="pficon-close update-icon-padding"></span>Failed to update tenant
+                  </div>
                 </div>
               </div>
             </div>
@@ -195,21 +199,22 @@
         </form>
       </div>
     </div>
-
   </div>
+
   <div class="row profile-overview-nav">
-    <ul class="col-md-10 col-md-offset-1 nav nav-tabs nav-tabs-pf nav-wrapper">
-      <li [ngClass]="{active: selectedTab === 1}" (click)="changeTab(1)"><a href="javascript:void(0)">My Work Items</a></li>
-      <li [ngClass]="{active: selectedTab === 2}" (click)="changeTab(2)"><a href="javascript:void(0)">My Spaces</a></li>
-    </ul>
+    <div class="col-md-10 col-md-offset-1">
+      <ul class="nav nav-tabs nav-tabs-pf">
+        <li [ngClass]="{active: selectedTab === 1}" (click)="changeTab(1)"><a href="javascript:void(0)">My Work Items</a></li>
+        <li [ngClass]="{active: selectedTab === 2}" (click)="changeTab(2)"><a href="javascript:void(0)">My Spaces</a></li>
+      </ul>
+    </div>
   </div>
-</div>
-
-<div class="container-fluid content padding-top-15">
-  <div class="col-xs-12 col-md-10 col-md-offset-1 padding-left-20 padding-right-20" *ngIf="selectedTab === 1">
-    <alm-work-items></alm-work-items>
-  </div>
-  <div class="col-xs-12 col-md-10 col-md-offset-1 padding-left-20 padding-right-20" *ngIf="selectedTab === 2">
-    <alm-spaces></alm-spaces>
+  <div class="row padding-top-15 padding-left-10 padding-right-10">
+    <div class="col-xs-12 col-md-10 col-md-offset-1" *ngIf="selectedTab === 1">
+      <alm-work-items></alm-work-items>
+    </div>
+    <div class="col-xs-12 col-md-10 col-md-offset-1" *ngIf="selectedTab === 2">
+      <alm-spaces></alm-spaces>
+    </div>
   </div>
 </div>
