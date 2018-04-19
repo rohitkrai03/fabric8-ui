@@ -1,12 +1,13 @@
 import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
 
-import { Broadcaster } from 'ngx-base';
+import { Broadcaster, Notification, Notifications, NotificationType } from 'ngx-base';
 import { Context, Contexts } from 'ngx-fabric8-wit';
 import { Space, SpaceService } from 'ngx-fabric8-wit';
 import { User, UserService } from 'ngx-login-client';
 import { Subscription } from 'rxjs';
 
+import { ExtProfile, GettingStartedService } from '../../getting-started/services/getting-started.service';
 import { ContextService } from '../../shared/context.service';
 
 @Component({
@@ -27,7 +28,9 @@ export class OverviewComponent implements OnDestroy, OnInit {
       private contexts: Contexts,
       private spaceService: SpaceService,
       private userService: UserService,
+      private notifications: Notifications,
       private contextService: ContextService,
+      private gettingStartedService: GettingStartedService,
       private broadcaster: Broadcaster,
       private router: Router) {
     this.subscriptions.push(contexts.current.subscribe(val => this.context = val));
@@ -64,5 +67,24 @@ export class OverviewComponent implements OnDestroy, OnInit {
 
   changeTab(tab): void {
     this.selectedTab = tab;
+  }
+
+  sendEmailVerificationLink(): void {
+    this.subscriptions.push(this.gettingStartedService.sendEmailVerificationLink()
+      .subscribe(res => {
+        if (res.status === 200) {
+          this.notifications.message({
+            message: `Email Verification link sent!`,
+            type: NotificationType.SUCCESS
+          } as Notification);
+        } else {
+          this.notifications.message({
+            message: `Error sending email verification link!`,
+            type: NotificationType.DANGER
+          } as Notification);
+        }
+      }, error => {
+        this.handleError('Unexpected error sending link!', NotificationType.DANGER);
+      }));
   }
 }

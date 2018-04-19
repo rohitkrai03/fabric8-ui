@@ -1,5 +1,6 @@
 <div class="container-fluid content">
-  <div class="row email-alert padding-top-20">
+  <div *ngIf="!context.user.attributes.emailVerified"
+    class="row email-alert padding-top-20">
     <div class="col-xs-12 col-md-10 col-md-offset-1">
       <div class="alert alert-warning">
         <span class="pficon pficon-warning-triangle-o"></span>
@@ -8,8 +9,8 @@
       </div>
     </div>
   </div>
-  <div class="row profile-overview-masthead padding-top-20">
-    <div class="col-xs-12 col-md-1">
+  <div class="row profile-overview-masthead">
+    <div class="col-xs-4 col-md-1">
       <div *ngIf="(context.user.attributes.imageURL !== undefined && context.user.attributes.imageURL.length !== 0); then showImageURL else addImageURL"></div>
       <ng-template #showImageURL>
         <img src="{{context.user.attributes.imageURL}}" class="img-responsive icon-user">

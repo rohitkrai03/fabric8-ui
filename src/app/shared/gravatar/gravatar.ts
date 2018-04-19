@@ -7,7 +7,7 @@ export function gravatar(email: string, options: any = {}): string {
 
   //set some defaults, just in case
   options = {
-    size: options.size || '50',
+    size: options.size || '100',
     rating: options.rating || 'g',
     secure: options.secure || (location.protocol === 'https:'),
     backup: options.backup || ''
