@@ -99,19 +99,7 @@ export class GettingStartedService implements OnDestroy {
       });
   }
 
-  sendEmailVerificationLink() {
-    return this.http
-      .post(this.usersUrl + '/verificationcode', null, { headers: this.headers })
-      .map(response => {
-        return response;
-      })
-      .catch((error) => {
-        return this.handleError(error);
-      });
-  }
-
   // Private
-
   protected handleError(error: any) {
     this.logger.error(error);
     return Observable.throw(error.message || error);

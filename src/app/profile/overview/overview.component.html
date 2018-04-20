@@ -68,7 +68,8 @@
       </button>
     </div>
     <div class="col-xs-12 col-md-6 padding-top-15">
-      <div class="row">
+      <!-- Commenting out the part with work items details since design and APIs are not final yet. -->
+      <!-- <div class="row">
         <p class="col-md-4">
           <span class="fa fa-check-circle work-item-icon">&nbsp;49&nbsp;</span>
           <span class="work-item-label">Work Items Completed</span>
@@ -82,7 +83,7 @@
           <span class="work-item-label">Time Spent Painting</span>
         </p>
       </div>
-      <hr class="col-sm-12 line-break">
+      <hr class="col-sm-12 line-break"> -->
       <div class="row profile-bio">
         <div *ngIf="(context.user.attributes.bio !== undefined && context.user.attributes.bio.length !== 0); then showBio else addBio"></div>
         <ng-template #showBio>

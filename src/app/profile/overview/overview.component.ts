@@ -70,9 +70,9 @@ export class OverviewComponent implements OnDestroy, OnInit {
   }
 
   sendEmailVerificationLink(): void {
-    this.subscriptions.push(this.gettingStartedService.sendEmailVerificationLink()
+    this.subscriptions.push(this.userService.sendEmailVerificationLink()
       .subscribe(res => {
-        if (res.status === 200) {
+        if (res.status === 204) {
           this.notifications.message({
             message: `Email Verification link sent!`,
             type: NotificationType.SUCCESS
@@ -86,5 +86,12 @@ export class OverviewComponent implements OnDestroy, OnInit {
       }, error => {
         this.handleError('Unexpected error sending link!', NotificationType.DANGER);
       }));
+  }
+
+  private handleError(error: string, type: NotificationType) {
+    this.notifications.message({
+      message: error,
+      type: type
+    } as Notification);
   }
 }

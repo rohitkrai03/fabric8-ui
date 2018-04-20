@@ -299,9 +299,9 @@ export class UpdateComponent implements AfterViewInit, OnInit {
   }
 
   sendEmailVerificationLink(): void {
-    this.subscriptions.push(this.gettingStartedService.sendEmailVerificationLink()
+    this.subscriptions.push(this.userService.sendEmailVerificationLink()
       .subscribe(res => {
-        if (res.status === 200) {
+        if (res.status === 204) {
           this.notifications.message({
             message: `Email Verification link sent!`,
             type: NotificationType.SUCCESS
@@ -442,14 +442,14 @@ export class UpdateComponent implements AfterViewInit, OnInit {
     this.username = (user.attributes.username !== undefined) ? user.attributes.username : '';
   }
 
+  changeTab(tab): void {
+    this.selectedTab = tab;
+  }
+
   private handleError(error: string, type: NotificationType) {
     this.notifications.message({
       message: error,
       type: type
     } as Notification);
-  }
-
-  changeTab(tab): void {
-    this.selectedTab = tab;
   }
 }
