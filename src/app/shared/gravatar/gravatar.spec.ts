@@ -21,7 +21,7 @@ describe('gravatar', function() {
   });
 
   it('Should calculate the md5 correctly and setup sensible defaults', function() {
-    expect(gravatar(email)).toEqual('http://www.gravatar.com/avatar/' + confirmed_md5 + '?r=g&s=50');
+    expect(gravatar(email)).toEqual('http://www.gravatar.com/avatar/' + confirmed_md5 + '?r=g&s=100');
   });
 
   it('Should standardize the email addresses', function() {
