@@ -1,6 +1,7 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { WorkItem, WorkItemService } from 'fabric8-planner';
+import { Broadcaster } from 'ngx-base';
 import { Context, Contexts } from 'ngx-fabric8-wit';
 import { Space, Spaces, SpaceService } from 'ngx-fabric8-wit';
 import { User, UserService } from 'ngx-login-client';
@@ -26,18 +27,25 @@ export class WorkItemsComponent implements OnDestroy, OnInit  {
   subscriptions: Subscription[] = [];
   spaces: Space[] = [];
   workItems: WorkItem[] = [];
+  @Input() viewingOwnAccount: Boolean;
 
   constructor(
       private contexts: Contexts,
       private spacesService: Spaces,
       private spaceService: SpaceService,
       private workItemService: WorkItemService,
+      private broadcaster: Broadcaster,
       private userService: UserService) {
     this.subscriptions.push(contexts.current.subscribe(val => this.context = val));
-    this.subscriptions.push(userService.loggedInUser.subscribe(user => {
-      this.loggedInUser = user;
-      if (user.attributes) {
-        this.subscriptions.push(spaceService.getSpacesByUser(user.attributes.username, 10).subscribe(spaces => {
+    if (this.context.user.attributes) {
+      this.subscriptions.push(spaceService.getSpacesByUser(this.context.user.attributes.username, 10).subscribe(spaces => {
+        this.spaces = spaces;
+      }));
+    }
+    this.subscriptions.push(this.broadcaster.on('contextChanged').subscribe(val => {
+      this.context = val as Context;
+      if (this.context.user.attributes) {
+        this.subscriptions.push(spaceService.getSpacesByUser(this.context.user.attributes.username, 10).subscribe(spaces => {
           this.spaces = spaces;
         }));
       }
@@ -49,6 +57,12 @@ export class WorkItemsComponent implements OnDestroy, OnInit  {
   }
 
   ngOnInit(): void {
+    if (this.viewingOwnAccount && this.userService.currentLoggedInUser.attributes) {
+      this.loggedInUser = this.userService.currentLoggedInUser;
+      this.subscriptions.push(this.spaceService.getSpacesByUser(this.loggedInUser.attributes.username, 10).subscribe(spaces => {
+        this.spaces = spaces;
+      }));
+    }
   }
 
   ngOnDestroy(): void {
