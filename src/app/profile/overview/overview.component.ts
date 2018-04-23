@@ -7,7 +7,7 @@ import { Space, SpaceService } from 'ngx-fabric8-wit';
 import { User, UserService } from 'ngx-login-client';
 import { Subscription } from 'rxjs';
 
-import { ExtProfile, GettingStartedService } from '../../getting-started/services/getting-started.service';
+import { ExtProfile } from '../../getting-started/services/getting-started.service';
 import { ContextService } from '../../shared/context.service';
 
 @Component({
@@ -30,7 +30,6 @@ export class OverviewComponent implements OnDestroy, OnInit {
       private userService: UserService,
       private notifications: Notifications,
       private contextService: ContextService,
-      private gettingStartedService: GettingStartedService,
       private broadcaster: Broadcaster,
       private router: Router) {
     this.subscriptions.push(contexts.current.subscribe(val => this.context = val));
@@ -45,7 +44,7 @@ export class OverviewComponent implements OnDestroy, OnInit {
     this.subscriptions.push(this.broadcaster.on('contextChanged').subscribe(val => {
       this.context = val as Context;
       this.viewingOwnAccount = this.contextService.viewingOwnContext();
-     }));
+    }));
   }
 
   ngOnInit() {
