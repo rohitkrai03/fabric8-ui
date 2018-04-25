@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 
 import { WorkItem, WorkItemService } from 'fabric8-planner';
 import { Broadcaster } from 'ngx-base';
@@ -7,6 +7,7 @@ import { Space, Spaces, SpaceService } from 'ngx-fabric8-wit';
 import { User, UserService } from 'ngx-login-client';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/Observable';
+import { ContextService } from '../../../shared/context.service';
 
 import { filterOutClosedItems } from '../../../shared/workitem-utils';
 
@@ -27,7 +28,7 @@ export class WorkItemsComponent implements OnDestroy, OnInit  {
   subscriptions: Subscription[] = [];
   spaces: Space[] = [];
   workItems: WorkItem[] = [];
-  @Input() viewingOwnAccount: Boolean;
+  viewingOwnAccount: Boolean;
 
   constructor(
       private contexts: Contexts,
@@ -35,7 +36,9 @@ export class WorkItemsComponent implements OnDestroy, OnInit  {
       private spaceService: SpaceService,
       private workItemService: WorkItemService,
       private broadcaster: Broadcaster,
-      private userService: UserService) {
+      private userService: UserService,
+      private contextService: ContextService) {
+    this.viewingOwnAccount = this.contextService.viewingOwnContext();
     this.subscriptions.push(contexts.current.subscribe(val => this.context = val));
     if (this.context.user.attributes) {
       this.subscriptions.push(spaceService.getSpacesByUser(this.context.user.attributes.username, 10).subscribe(spaces => {
