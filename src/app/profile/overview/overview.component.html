@@ -26,11 +26,8 @@
       </ng-template>
     </div>
     <div class="col-xs-12 col-md-2">
-      <p class="profile-wrapper-name">{{context?.user?.attributes?.fullName}}
-        <span class="profile-wrapper-username">
-          {{context?.user?.attributes?.username}}
-        </span>
-      </p>
+      <p class="profile-wrapper-name">{{context?.user?.attributes?.fullName}}</p>
+      <p class="profile-wrapper-username">{{context?.user?.attributes?.username}}</p>
       <div *ngIf="(context.user.attributes.email !== undefined && context.user.attributes.email.length !== 0); then showEmail else addEmail"></div>
       <ng-template #showEmail>
         <p class="profile-wrapper-email truncate" *ngIf="!context.user.attributes.emailPrivate">

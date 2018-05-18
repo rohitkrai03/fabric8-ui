@@ -93,10 +93,10 @@
               </div>
             </div>
             <div class="padding-top-20">
-              <button class="btn btn-primary btn-update col-md-3"
+              <button class="btn btn-primary btn-default col-md-3"
                 [disabled]="isUpdateProfileDisabled"
                 (click)="updateProfile()">Update</button>
-              <button class="btn btn-cancel btn-default col-md-2"
+              <button class="btn btn-cancel btn-default col-md-3"
                 (click)="routeToProfile()">Cancel</button>
             </div>
           </div>
@@ -123,35 +123,6 @@
                 Change password
               </button>
             </div>
-          </div>
-          <div class="padding-top-20">
-            <button class="btn btn-primary btn-update col-md-3"
-              [disabled]="isUpdateProfileDisabled"
-              (click)="updateProfile()">Update</button>
-            <button class="btn btn-cancel btn-default col-md-2"
-              (click)="routeToProfile()">Cancel</button>
-          </div>
-          <div class="form-group">
-            <label for="bioInput">Bio</label>
-            <textarea class="form-control" id="bioInput" name="bioInput" rows="5" #_bio
-                      placeholder="Enter your bio"
-                      [blockInputAtMaxLimit]="true"
-                      [charsMaxLimit]="255"
-                      [charsRemainingElement]="remainingCountElement"
-                      [charsRemainingWarning]="5"
-                      (onOverCharsMaxLimit)="handleOverCharsMaxLimit()"
-                      [(ngModel)]="bio"
-                      pfng-remaining-chars-count>
-            </textarea>
-            <span class="pull-right chars-remaining-pf">
-              <span #remainingCountElement></span>
-              <span class="fields-status-pf">characters remaining</span>
-            </span>
-          </div>
-          <div class="form-group">
-            <button class="btn btn-default" id="passwordReset" (click)="resetPasswordUrl()">
-              Change password <i class="fa fa-external-link"></i>
-            </button>
           </div>
         </form>
 
