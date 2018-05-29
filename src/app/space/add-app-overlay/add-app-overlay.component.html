@@ -122,7 +122,7 @@
       <footer class="container-fluid">
         <div class="row">
           <div class="col-sm-12 code-imports--step_toolbar">
-            <button id="cancelImportsButton" class="btn btn-primary" aria-label="Continue" [disabled]="selectedFlow === '' || projectName === '' || isProjectNameValid === false || isProjectNameAvailable === false"
+            <button id="cancelImportsButton" class="btn btn-primary" aria-label="Continue" [disabled]="selectedFlow === '' || projectName === '' || isProjectNameValid === false || isProjectNameAvailable === false || isProjectNameValid === undefined || isProjectNameAvailable === undefined"
               (click)="routeToLaunchApp()">Continue</button>
           </div>
         </div>

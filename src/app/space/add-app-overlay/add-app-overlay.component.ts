@@ -1,11 +1,10 @@
 import {
   Component,
   OnDestroy,
-  OnInit,
   ViewEncapsulation
 } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { Broadcaster } from 'ngx-base';
 import { Context, Space } from 'ngx-fabric8-wit';
@@ -21,7 +20,7 @@ import { Application, DeploymentApiService } from '../create/deployments/service
   styleUrls: ['./add-app-overlay.component.less'],
   templateUrl: './add-app-overlay.component.html'
 })
-export class AddAppOverlayComponent implements OnDestroy, OnInit {
+export class AddAppOverlayComponent implements OnDestroy {
   currentSpace: Space;
   isProjectNameValid: boolean;
   loggedInUser: User;
@@ -32,17 +31,37 @@ export class AddAppOverlayComponent implements OnDestroy, OnInit {
   applications: string[] = [];
   isProjectNameAvailable: boolean;
 
-  constructor(private context: ContextService,
+  constructor(private contextService: ContextService,
               private dependencyCheckService: DependencyCheckService,
               private broadcaster: Broadcaster,
               private userService: UserService,
               private router: Router,
               private deploymentApiService: DeploymentApiService) {
     this.loggedInUser = this.userService.currentLoggedInUser;
-    if (context && context.current) {
-      this.subscriptions.push(context.current.subscribe((ctx: Context) => {
-        this.currentSpace = ctx.space;
-      }));
+    this.subscriptions.push(this.dependencyCheckService.getDependencyCheck().subscribe((val) => {
+      this.projectName = val.projectName;
+    }));
+    if (this.contextService && this.contextService.current) {
+      this.subscriptions.push(
+        this.contextService.current
+          .map((ctx: Context) => ctx.space)
+          .switchMap(space => {
+            if (space) {
+              this.currentSpace = space;
+              return this.deploymentApiService.getApplications(space.id);
+            } else {
+              return Observable.empty();
+            }
+          })
+          .subscribe((response: Application[]) => {
+            if (response) {
+              const applications: string[] = response.map(app => {
+                return app.attributes.name ? app.attributes.name.toLowerCase() : '';
+              });
+              this.applications = applications;
+            }
+          })
+      );
     }
   }
 
@@ -50,19 +69,6 @@ export class AddAppOverlayComponent implements OnDestroy, OnInit {
     this.subscriptions.forEach(sub => {
       sub.unsubscribe();
     });
-  }
-
-  ngOnInit() {
-    this.subscriptions.push(this.dependencyCheckService.getDependencyCheck().subscribe((val) => {
-      this.projectName = val.projectName;
-    }));
-    this.subscriptions.push(this.deploymentApiService.getApplications(this.currentSpace.id)
-      .subscribe((response: Application[]) => {
-        const applications: string[] = response.map(app => {
-          return app.attributes.name ? app.attributes.name.toLowerCase() : '';
-        });
-        this.applications = applications;
-      }));
   }
 
   /**
