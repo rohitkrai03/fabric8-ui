@@ -69,6 +69,14 @@ export const routes: Routes = [
       title: 'Verify'
     }
   },
+  //redirect status pages
+  {
+    path: '_redirects/:redirectType',
+    loadChildren: './layout/redirect-status/redirect-status.module#RedirectStatusModule',
+    data: {
+      title: 'Redirect Status'
+    }
+  },
   // Error Pages
   {
     path: '_error',
