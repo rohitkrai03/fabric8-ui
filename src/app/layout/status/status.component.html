@@ -4,27 +4,26 @@
       src="../../../assets/images/Logotype_RH_OpenShift-io_RGB_RedGray.png">
   </div>
   <div>
-    <img *ngIf="status === 'success'"
-      width="100"
-      height="100"
+    <img
+      *ngIf="status === 'success'"
+      class="status-img success-img"
       src='../../../assets/images/trophy.png' />
-    <img *ngIf="status === 'fail'"
-      width="100"
-      height="100"
+    <img
+      *ngIf="status === 'fail'"
+      class="status-img fail-img"
       src='../../../assets/images/neutralface.png' />
-    <h1>
+    <h1 class="primary-msg">
       {{ data?.message }}
     </h1>
-    <p>
+    <p class="secondary-msg">
       {{ data?.secMessage }}
     </p>
   </div>
   <div class="blank-slate-pf-main-action">
-    <button
-      type="button"
-      class="btn btn-primary btn-lg"
+    <a
+      class="btn btn-primary btn-lg cta-button"
       [routerLink]="['/', data?.ctaLink]">
       Continue to my {{ data?.ctaLabel }}
-    </button>
+    </a>
   </div>
 </div>

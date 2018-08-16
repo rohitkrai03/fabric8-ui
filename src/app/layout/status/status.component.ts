@@ -7,9 +7,8 @@ import { Component, Input } from  '@angular/core';
 })
 export class StatusComponent {
 
-  @Input() status: string;
+  @Input() status: 'success' | 'fail';
   @Input() data: object;
 
   constructor() {}
-
 }
