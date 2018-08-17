@@ -59,7 +59,7 @@ describe('Component: Status', () => {
       expect(successImgEl.nativeElement).toBeTruthy();
       expect(failImgEl.nativeElement).toBeFalsy();
       expect(successImgEl.nativeElement.getAttribute('src'))
-        .toEqual('../../../assets/images/Logotype_RH_OpenShift-io_RGB_RedGray.png');
+        .toEqual('../../../assets/images/trophy.png');
 
       expect(ctaEl.nativeElement.getAttribute('href'))
         .toEqual('/' + successData.ctaLink);
