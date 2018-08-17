@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ActivatedRoute,
-  Router
-} from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'f8-redirect-status',
@@ -11,7 +8,7 @@ import {
 })
 export class RedirectStatusComponent implements OnInit {
 
-  private redirects: object = {
+  private redirects: any = {
     _verifyEmail: {
       success: {
         message: 'Your e-mail has been confirmed.',
@@ -19,7 +16,7 @@ export class RedirectStatusComponent implements OnInit {
         ctaLink: '_home',
         ctaLabel: 'home dashboard'
       },
-      error: {
+      fail: {
         message: '',
         secMessage: 'It appears there is a problem with validating your e-mail. You can reset your e-mail on your Profile Page',
         ctaLink: '_profile',
