@@ -1,5 +1,5 @@
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, inject, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed} from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StatusComponent } from './status.component';
@@ -59,7 +59,7 @@ describe('Component: Status', () => {
       expect(successImgEl.nativeElement).toBeTruthy();
       expect(failImgEl.nativeElement).toBeFalsy();
       expect(successImgEl.nativeElement.getAttribute('src'))
-        .toEqual('../../../assets/images/trophy.png');
+        .toEqual('../../../../assets/images/trophy.png');
 
       expect(ctaEl.nativeElement.getAttribute('href'))
         .toEqual('/' + successData.ctaLink);
@@ -76,7 +76,7 @@ describe('Component: Status', () => {
       expect(successImgEl.nativeElement).toBeFalsy();
       expect(failImgEl.nativeElement).toBeTruthy();
       expect(failImgEl.nativeElement.getAttribute('src'))
-        .toEqual('../../../assets/images/neutralface.png');
+        .toEqual('../../../../assets/images/neutralface.png');
 
       expect(ctaEl.nativeElement.getAttribute('href'))
         .toEqual('/' + failData.ctaLink);
