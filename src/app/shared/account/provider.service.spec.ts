@@ -1,71 +1,46 @@
-import { inject, TestBed } from '@angular/core/testing';
-import { BaseRequestOptions, Http } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
+import { TestBed } from '@angular/core/testing';
+
+import {
+  HttpClientTestingModule,
+  HttpTestingController
+} from '@angular/common/http/testing';
 
 import { Broadcaster, Logger } from 'ngx-base';
 import { AUTH_API_URL, AuthenticationService } from 'ngx-login-client';
 import { ProviderService } from './provider.service';
 
+import { createMock } from 'testing/mock';
+
 describe('Service: Provider Service', () => {
 
-    let mockService: MockBackend;
-    let providerService: ProviderService;
-    let broadcaster: Broadcaster;
-    let fakeAuthService: any;
-
+    let service: ProviderService;
+    let controller: HttpTestingController;
+    let mockLogger: jasmine.SpyObj<Logger>;
     class BroadcasterTestProvider {
       static broadcaster = new Broadcaster();
     }
 
     beforeEach(() => {
-        fakeAuthService = {
-            getToken: function() {
-              return 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiY2xpZW50X3Nlc3Npb24iOiJURVNUU0VTU0lPTiIsInNlc3Npb25fc3RhdGUiOiJURVNUU0VTU0lPTlNUQVRFIiwiYWRtaW4iOnRydWUsImp0aSI6ImY5NWQyNmZlLWFkYzgtNDc0YS05MTk0LWRjM2E0YWFiYzUwMiIsImlhdCI6MTUxMDU3MTMxOSwiZXhwIjoxNTEwNTgwODI3fQ.l0m6EFvk5jbND3VOXL3gTkzTz0lYQtPtXS_6C24kPQk';
-            },
-            isLoggedIn: function() {
-              return true;
-            }
-          };
+      const mockAuthenticationService: jasmine.SpyObj<AuthenticationService> = createMock(AuthenticationService);
+      mockAuthenticationService.getToken.and.returnValue('eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiY2xpZW50X3Nlc3Npb24iOiJURVNUU0VTU0lPTiIsInNlc3Npb25fc3RhdGUiOiJURVNUU0VTU0lPTlNUQVRFIiwiYWRtaW4iOnRydWUsImp0aSI6ImY5NWQyNmZlLWFkYzgtNDc0YS05MTk0LWRjM2E0YWFiYzUwMiIsImlhdCI6MTUxMDU3MTMxOSwiZXhwIjoxNTEwNTgwODI3fQ.l0m6EFvk5jbND3VOXL3gTkzTz0lYQtPtXS_6C24kPQk');
+      mockLogger = jasmine.createSpyObj<Logger>('Logger', ['error']);
 
-        TestBed.configureTestingModule({
-          providers: [
-            BaseRequestOptions,
-            ProviderService,
-            MockBackend,
-            {
-              provide: Http,
-              useFactory: (backend: MockBackend,
-                           options: BaseRequestOptions) => new Http(backend, options),
-              deps: [MockBackend, BaseRequestOptions]
-            },
-            {
-              provide: AUTH_API_URL,
-              useValue: 'https://auth.fabric8.io/api/'
-            },
-            {
-                provide: AuthenticationService,
-                useValue: fakeAuthService
-            },
-            {
-              provide: Broadcaster,
-              useValue: BroadcasterTestProvider.broadcaster
-            },
-            Logger
-          ]
-        });
+      TestBed.configureTestingModule({
+        imports: [HttpClientTestingModule],
+        providers: [
+          { provide: Logger, useValue: mockLogger },
+          { provide: AuthenticationService, useValue: mockAuthenticationService },
+          { provide: AUTH_API_URL, useValue: 'https://auth.fabric8.io/api/' },
+          { provide: Broadcaster, useValue: BroadcasterTestProvider.broadcaster },
+          ProviderService
+        ]
       });
+      service = TestBed.get(ProviderService);
+      controller = TestBed.get(HttpTestingController);
+    });
 
-
-    beforeEach(inject(
-        [ProviderService, MockBackend, Broadcaster],
-        (service: ProviderService, mock: MockBackend, broadcast: Broadcaster) => {
-            providerService = service;
-            mockService = mock;
-            broadcaster = broadcast;
-        }
-    ));
     it('Get legacy linking url', () => {
-        let val = providerService.getLegacyLinkingUrl('openshift-v3', 'testredirect');
-        expect(val).toEqual('https://auth.fabric8.io/api/link/session?clientSession=TESTSESSION&sessionState=TESTSESSIONSTATE&redirect=testredirect&provider=openshift-v3');
+      let val = service.getLegacyLinkingUrl('openshift-v3', 'testredirect');
+      expect(val).toEqual('https://auth.fabric8.io/api/link/session?clientSession=TESTSESSION&sessionState=TESTSESSIONSTATE&redirect=testredirect&provider=openshift-v3');
     });
 });
