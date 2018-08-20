@@ -48,7 +48,7 @@ describe('Component: Status', () => {
     secMsgEl = fixture.debugElement.query(By.css('.secondary-msg'));
   });
 
-  it('Should have success image, msg and cta_link set', () => {
+  it('should have success image, msg and cta_link set', () => {
     component.status = 'success';
     component.data = successData;
     fixture.detectChanges();
@@ -66,7 +66,7 @@ describe('Component: Status', () => {
     });
   });
 
-  it('Should have fail image, msg and cta_link set', () => {
+  it('should have fail image, msg and cta_link set', () => {
     component.status = 'fail';
     component.data = failData;
     fixture.detectChanges();
