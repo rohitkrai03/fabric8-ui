@@ -3,8 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'f8-redirect-status',
-  templateUrl: 'redirect-status.component.html',
-  styleUrls: ['./redirect-status.component.less']
+  templateUrl: 'redirect-status.component.html'
 })
 export class RedirectStatusComponent implements OnInit {
 
