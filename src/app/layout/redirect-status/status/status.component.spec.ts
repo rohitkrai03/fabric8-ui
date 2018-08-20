@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StatusComponent } from './status.component';
 
+import { RedirectData } from '../../../models/redirect-data';
+
 
 describe('StatusComponent', () => {
 
@@ -15,13 +17,13 @@ describe('StatusComponent', () => {
   let msgEl: DebugElement;
   let secMsgEl: DebugElement;
 
-  const successData = {
+  const successData: RedirectData = {
       message: 'Your e-mail has been confirmed.',
       secMessage: 'Thank you for validating your e-mail address. You can now continue to use Openshift.io',
       ctaLink: '_home',
       ctaLabel: 'home dashboard'
   };
-  const failData = {
+  const failData: RedirectData = {
     message: 'Some primary error message.',
     secMessage: 'It appears there is a problem with validating your e-mail. You can reset your e-mail on your Profile Page',
     ctaLink: '_profile',
@@ -31,8 +33,8 @@ describe('StatusComponent', () => {
   beforeEach(() => {
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
-      declarations: [StatusComponent],
+      imports: [ RouterTestingModule.withRoutes([]) ],
+      declarations: [ StatusComponent ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
 

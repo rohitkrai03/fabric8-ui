@@ -11,5 +11,4 @@ export class StatusComponent {
   @Input() status: 'success' | 'fail';
   @Input() data: RedirectData;
 
-  constructor() {}
 }

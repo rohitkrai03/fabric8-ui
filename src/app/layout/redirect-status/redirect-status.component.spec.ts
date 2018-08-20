@@ -1,12 +1,12 @@
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, TestBed } from '@angular/core/testing';
-import { ActivatedRoute, Router } from '@angular/router';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 
 import { RedirectStatusComponent } from './redirect-status.component';
 
 describe('Redirect Status Component', () => {
-  let fixture;
+  let fixture: ComponentFixture<RedirectStatusComponent>;
   let routeMock: any;
 
   beforeEach(() => {
@@ -23,15 +23,15 @@ describe('Redirect Status Component', () => {
     };
 
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule.withRoutes([])],
-      declarations: [RedirectStatusComponent],
+      imports: [ RouterTestingModule.withRoutes([]) ],
+      declarations: [ RedirectStatusComponent ],
       providers: [
         {
           provide: ActivatedRoute, useValue: routeMock
         }
       ],
       // Tells the compiler not to error on unknown elements and attributes
-      schemas: [NO_ERRORS_SCHEMA]
+      schemas: [ NO_ERRORS_SCHEMA ]
     });
 
     fixture = TestBed.createComponent(RedirectStatusComponent);
