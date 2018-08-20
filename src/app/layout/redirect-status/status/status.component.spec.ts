@@ -4,7 +4,8 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StatusComponent } from './status.component';
 
-describe('Component: Status', () => {
+
+describe('StatusComponent', () => {
 
   let component: StatusComponent;
   let fixture: ComponentFixture<StatusComponent>;

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
+import { RedirectData } from '../../models/redirect-data';
+
 @Component({
   selector: 'f8-redirect-status',
   templateUrl: 'redirect-status.component.html'
@@ -25,7 +27,7 @@ export class RedirectStatusComponent implements OnInit {
   };
 
   private redirectStatus: string;
-  private redirectData: object;
+  private redirectData: RedirectData;
 
   constructor(private route: ActivatedRoute) {}
 
