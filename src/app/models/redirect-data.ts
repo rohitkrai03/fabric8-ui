@@ -1,6 +1,6 @@
 export class RedirectData {
-  message: string;
-  secMessage: string;
-  ctaLink: string;
-  ctaLabel: string;
+  statusMessage: string;
+  secondaryStatusMessage: string;
+  callToActionUrl: string;
+  callToActionLabel: string;
 }

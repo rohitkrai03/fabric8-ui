@@ -18,16 +18,16 @@ describe('StatusComponent', () => {
   let secMsgEl: DebugElement;
 
   const successData: RedirectData = {
-      message: 'Your e-mail has been confirmed.',
-      secMessage: 'Thank you for validating your e-mail address. You can now continue to use Openshift.io',
-      ctaLink: '_home',
-      ctaLabel: 'home dashboard'
+    statusMessage: 'Your e-mail has been confirmed.',
+    secondaryStatusMessage: 'Thank you for validating your e-mail address. You can now continue to use Openshift.io',
+    callToActionUrl: '_home',
+    callToActionLabel: 'home dashboard'
   };
   const failData: RedirectData = {
-    message: 'Some primary error message.',
-    secMessage: 'It appears there is a problem with validating your e-mail. You can reset your e-mail on your Profile Page',
-    ctaLink: '_profile',
-    ctaLabel: 'profile'
+    statusMessage: 'Some primary error message.',
+    secondaryStatusMessage: 'It appears there is a problem with validating your e-mail. You can reset your e-mail on your Profile Page',
+    callToActionUrl: '_profile',
+    callToActionLabel: 'profile'
   };
 
   beforeEach(() => {
@@ -56,8 +56,8 @@ describe('StatusComponent', () => {
     component.data = successData;
     fixture.detectChanges();
     fixture.whenStable().then(async(() => {
-      expect(msgEl.nativeElement.innerText).toBe(successData.message);
-      expect(secMsgEl.nativeElement.innerText).toBe(successData.secMessage);
+      expect(msgEl.nativeElement.innerText).toBe(successData.statusMessage);
+      expect(secMsgEl.nativeElement.innerText).toBe(successData.secondaryStatusMessage);
 
       expect(successImgEl.nativeElement).toBeTruthy();
       expect(failImgEl.nativeElement).toBeFalsy();
@@ -65,7 +65,7 @@ describe('StatusComponent', () => {
         .toEqual('../../../../assets/images/trophy.png');
 
       expect(ctaEl.nativeElement.getAttribute('href'))
-        .toEqual('/' + successData.ctaLink);
+        .toEqual('/' + successData.callToActionUrl);
     }));
   });
 
@@ -74,15 +74,15 @@ describe('StatusComponent', () => {
     component.data = failData;
     fixture.detectChanges();
     fixture.whenStable().then(async(() => {
-      expect(msgEl.nativeElement.innerText).toBe(failData.message);
-      expect(secMsgEl.nativeElement.innerText).toBe(failData.secMessage);
+      expect(msgEl.nativeElement.innerText).toBe(failData.statusMessage);
+      expect(secMsgEl.nativeElement.innerText).toBe(failData.secondaryStatusMessage);
       expect(successImgEl.nativeElement).toBeFalsy();
       expect(failImgEl.nativeElement).toBeTruthy();
       expect(failImgEl.nativeElement.getAttribute('src'))
         .toEqual('../../../../assets/images/neutralface.png');
 
       expect(ctaEl.nativeElement.getAttribute('href'))
-        .toEqual('/' + failData.ctaLink);
+        .toEqual('/' + failData.callToActionUrl);
     }));
   });
 

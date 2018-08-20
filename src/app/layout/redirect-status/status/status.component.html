@@ -15,17 +15,17 @@
         src='../../../../assets/images/neutralface.png' />
     </div>
     <h1 class="primary-msg">
-      {{ data?.message }}
+      {{ data?.statusMessage }}
     </h1>
     <p class="secondary-msg">
-      {{ data?.secMessage }}
+      {{ data?.secondaryStatusMessage }}
     </p>
   </div>
   <div class="blank-slate-pf-main-action">
     <a
       class="btn btn-primary btn-lg cta-button"
-      [routerLink]="['/', data?.ctaLink]">
-      Continue to my {{ data?.ctaLabel }}
+      [routerLink]="['/', data?.callToActionUrl]">
+      Continue to my {{ data?.callToActionLabel }}
     </a>
   </div>
 </div>

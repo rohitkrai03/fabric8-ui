@@ -42,7 +42,7 @@ describe('Redirect Status Component', () => {
     fixture.detectChanges();
     fixture.whenStable().then(() => {
       expect(comp.redirectStatus).toBe('fail');
-      expect(comp.redirectData.message).toBe('Some error');
+      expect(comp.redirectData.statusMessage).toBe('Some error');
     });
   }));
 });
