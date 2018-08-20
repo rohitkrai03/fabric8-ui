@@ -1,5 +1,5 @@
 import { DebugElement, NO_ERRORS_SCHEMA } from '@angular/core';
-import { async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StatusComponent } from './status.component';
@@ -52,7 +52,7 @@ describe('Component: Status', () => {
     component.status = 'success';
     component.data = successData;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
+    fixture.whenStable().then(async(() => {
       expect(msgEl.nativeElement.innerText).toBe(successData.message);
       expect(secMsgEl.nativeElement.innerText).toBe(successData.secMessage);
 
@@ -63,14 +63,14 @@ describe('Component: Status', () => {
 
       expect(ctaEl.nativeElement.getAttribute('href'))
         .toEqual('/' + successData.ctaLink);
-    });
+    }));
   });
 
   it('should have fail image, msg and cta_link set', () => {
     component.status = 'fail';
     component.data = failData;
     fixture.detectChanges();
-    fixture.whenStable().then(() => {
+    fixture.whenStable().then(async(() => {
       expect(msgEl.nativeElement.innerText).toBe(failData.message);
       expect(secMsgEl.nativeElement.innerText).toBe(failData.secMessage);
       expect(successImgEl.nativeElement).toBeFalsy();
@@ -80,7 +80,7 @@ describe('Component: Status', () => {
 
       expect(ctaEl.nativeElement.getAttribute('href'))
         .toEqual('/' + failData.ctaLink);
-    });
+    }));
   });
 
 });
