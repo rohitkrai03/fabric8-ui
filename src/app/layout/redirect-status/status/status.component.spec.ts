@@ -4,7 +4,7 @@ import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { StatusComponent } from './status.component';
 
-import { RedirectData } from '../../../models/redirect-data';
+import { RedirectStatusData } from '../../../models/redirect-data';
 
 
 describe('StatusComponent', () => {
@@ -17,13 +17,13 @@ describe('StatusComponent', () => {
   let msgEl: DebugElement;
   let secMsgEl: DebugElement;
 
-  const successData: RedirectData = {
+  const successData: RedirectStatusData = {
     statusMessage: 'Your e-mail has been confirmed.',
     secondaryStatusMessage: 'Thank you for validating your e-mail address. You can now continue to use Openshift.io',
     callToActionUrl: '_home',
     callToActionLabel: 'home dashboard'
   };
-  const failData: RedirectData = {
+  const failData: RedirectStatusData = {
     statusMessage: 'Some primary error message.',
     secondaryStatusMessage: 'It appears there is a problem with validating your e-mail. You can reset your e-mail on your Profile Page',
     callToActionUrl: '_profile',

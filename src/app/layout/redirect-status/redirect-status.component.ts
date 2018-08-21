@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
-import { RedirectData } from '../../models/redirect-data';
+import { RedirectData, RedirectStatusData } from '../../models/redirect-data';
 
 @Component({
   selector: 'f8-redirect-status',
@@ -9,7 +9,7 @@ import { RedirectData } from '../../models/redirect-data';
 })
 export class RedirectStatusComponent implements OnInit {
 
-  private redirects: Map<string, any> = new Map([
+  private redirects: Map<string, RedirectData> = new Map([
     [
       '_verifyEmail', {
         success: {
@@ -29,7 +29,7 @@ export class RedirectStatusComponent implements OnInit {
   ]);
 
   redirectStatus: string;
-  redirectData: RedirectData;
+  redirectData: RedirectStatusData;
 
   constructor(private route: ActivatedRoute) {}
 

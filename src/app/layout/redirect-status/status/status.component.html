@@ -21,7 +21,9 @@
       {{ data?.secondaryStatusMessage }}
     </p>
   </div>
-  <div class="blank-slate-pf-main-action">
+  <div
+    *ngIf="data.callToActionUrl || data.callToActionLabel"
+    class="blank-slate-pf-main-action">
     <a
       class="btn btn-primary btn-lg cta-button"
       [routerLink]="['/', data?.callToActionUrl]">

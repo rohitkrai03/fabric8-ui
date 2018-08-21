@@ -1,5 +1,5 @@
 import { Component, Input } from  '@angular/core';
-import { RedirectData } from '../../../models/redirect-data';
+import { RedirectStatusData } from '../../../models/redirect-data';
 
 @Component({
   selector: 'f8-status',
@@ -9,6 +9,6 @@ import { RedirectData } from '../../../models/redirect-data';
 export class StatusComponent {
 
   @Input() status: 'success' | 'fail';
-  @Input() data: RedirectData;
+  @Input() data: RedirectStatusData;
 
 }
