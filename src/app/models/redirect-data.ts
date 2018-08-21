@@ -1,8 +1,8 @@
 export class RedirectStatusData {
   statusMessage: string;
-  secondaryStatusMessage: string;
-  callToActionUrl: string;
-  callToActionLabel: string;
+  secondaryStatusMessage?: string;
+  callToActionUrl?: string;
+  callToActionLabel?: string;
 }
 
 export class RedirectData {
