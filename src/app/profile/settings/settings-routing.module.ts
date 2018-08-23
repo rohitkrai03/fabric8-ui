@@ -3,6 +3,8 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { SettingsComponent } from './settings.component';
 
+import { FeatureFlagResolver } from 'ngx-feature-flag';
+
 const routes: Routes = [
   {
     path: '',
@@ -18,7 +20,14 @@ const routes: Routes = [
       },
       {
         path: 'notifications',
-        loadChildren: './notifications/notifications.module#NotificationsModule'
+        loadChildren: './notifications/notifications.module#NotificationsModule',
+        resolve: {
+          featureFlagConfig: FeatureFlagResolver
+        },
+        data: {
+          title: 'Notifications',
+          featureName: 'ProfileSettingsNotifications'
+        }
       },
       {
         path: 'resources',
