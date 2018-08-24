@@ -44,7 +44,7 @@ export const routes: Routes = [
       title: 'Verify'
     }
   },
-  
+
   //redirect status pages
   {
     path: '_redirects/:redirectType',
