@@ -4,9 +4,12 @@ import { DeploymentApiService } from '../../space/create/deployments/services/de
 import { SettingsRoutingModule } from './settings-routing.module';
 import { SettingsComponent } from './settings.component';
 
+import { FeatureFlagModule } from 'ngx-feature-flag';
+
 @NgModule({
   imports: [
-    SettingsRoutingModule
+    SettingsRoutingModule,
+    FeatureFlagModule
   ],
   declarations: [ SettingsComponent ],
   providers: [ DeploymentApiService ]
