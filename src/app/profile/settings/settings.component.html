@@ -18,14 +18,6 @@
         Resources
       </a>
     </li>
-    <f8-feature-toggle class="nav nav-tabs nav-tabs-pf" featureName="ProfileSettingsNotifications" [userLevel]="user"></f8-feature-toggle>
-    <ng-template #user>
-      <li class="padding-left-15" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
-        <a [routerLink]="['/' + loggedInUserName + '/_settings/notifications']">
-          Notifications
-        </a>
-      </li>
-    </ng-template>
   </ul>
 </div>
 <router-outlet></router-outlet>
