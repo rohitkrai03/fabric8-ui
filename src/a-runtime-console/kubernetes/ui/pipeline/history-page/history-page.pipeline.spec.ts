@@ -1,12 +1,10 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { FormsModule } from '@angular/forms';
-import { BaseRequestOptions, Http, RequestOptions } from '@angular/http';
-import { MockBackend } from '@angular/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MomentModule } from 'angular2-moment';
-import { RestangularModule } from 'ngx-restangular';
 import { ModalModule } from 'ngx-modal';
+import { RestangularModule } from 'ngx-restangular';
 import { Fabric8CommonModule } from '../../../../common/common.module';
 import { KubernetesComponentsModule } from '../../../components/components.module';
 import { KubernetesStoreModule } from '../../../kubernetes.store.module';
@@ -21,6 +19,8 @@ import { PipelinesHistoryPage } from './history-page.pipeline.component';
 import { StackDetailsModule } from 'fabric8-stack-analysis-ui';
 import { InputActionDialog } from '../input-action-dialog/input-action-dialog.component';
 
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+
 describe('PipelinesHistoryPage', () => {
   let component: PipelinesHistoryPage;
   let fixture: ComponentFixture<PipelinesHistoryPage>;
@@ -28,6 +28,7 @@ describe('PipelinesHistoryPage', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       imports: [
+        HttpClientTestingModule,
         Fabric8CommonModule,
         RouterTestingModule.withRoutes([]),
         RestangularModule.forRoot(),
@@ -47,15 +48,6 @@ describe('PipelinesHistoryPage', () => {
         PipelinesHistoryComponent,
         PipelinesHistoryToolbarComponent,
         StageTimePipe
-      ],
-      providers: [
-        MockBackend,
-        { provide: RequestOptions, useClass: BaseRequestOptions },
-        {
-          provide: Http, useFactory: (backend, options) => {
-            return new Http(backend, options);
-          }, deps: [MockBackend, RequestOptions]
-        }
       ]
     })
       .compileComponents();
