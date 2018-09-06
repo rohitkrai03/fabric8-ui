@@ -1,56 +1,33 @@
 /* tslint:disable:no-unused-variable */
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MomentModule } from 'angular2-moment';
-import { ModalModule } from 'ngx-modal';
-import { RestangularModule } from 'ngx-restangular';
-import { Fabric8CommonModule } from '../../../../common/common.module';
-import { KubernetesComponentsModule } from '../../../components/components.module';
-import { KubernetesStoreModule } from '../../../kubernetes.store.module';
-import { BuildConfigDialogsModule } from '../../buildconfig/delete-dialog/buildconfig.dialogs.module';
-import { BuildStageViewComponent } from '../build-stage-view/build-stage-view.component';
-import { PipelinesHistoryToolbarComponent } from '../history-toolbar/history-toolbar.pipeline.component';
-import { PipelinesHistoryComponent } from '../history/history.pipeline.component';
-import { TestAppModule } from './../../../../app.test.module';
-import { StageTimePipe } from './../build-stage-view/stage-time.pipe';
+import { Observable } from 'rxjs';
+import { APIsStore } from '../../../store/apis.store';
+import { BuildStore } from '../../../store/build.store';
+import { BuildConfigStore } from '../../../store/buildconfig.store';
 import { PipelinesHistoryPage } from './history-page.pipeline.component';
-
-import { StackDetailsModule } from 'fabric8-stack-analysis-ui';
-import { InputActionDialog } from '../input-action-dialog/input-action-dialog.component';
-
-import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('PipelinesHistoryPage', () => {
   let component: PipelinesHistoryPage;
   let fixture: ComponentFixture<PipelinesHistoryPage>;
 
   beforeEach(async(() => {
+    let mockBuildConfigStore: any = jasmine.createSpy('BuildConfigService');
+    mockBuildConfigStore.loading = Observable.of(false);
+    let mockBuildStore: any = jasmine.createSpy('BuildStore');
+    mockBuildStore.loading = Observable.of(true);
+    let mockAPIsStore: any = jasmine.createSpy('APIsStore');
     TestBed.configureTestingModule({
-      imports: [
-        HttpClientTestingModule,
-        Fabric8CommonModule,
-        RouterTestingModule.withRoutes([]),
-        RestangularModule.forRoot(),
-        FormsModule,
-        MomentModule,
-        ModalModule,
-        KubernetesStoreModule,
-        KubernetesComponentsModule,
-        BuildConfigDialogsModule,
-        TestAppModule,
-        StackDetailsModule
-      ],
       declarations: [
-        BuildStageViewComponent,
-        InputActionDialog,
-        PipelinesHistoryPage,
-        PipelinesHistoryComponent,
-        PipelinesHistoryToolbarComponent,
-        StageTimePipe
-      ]
-    })
-      .compileComponents();
+        PipelinesHistoryPage
+      ],
+      providers: [
+        { provide: BuildConfigStore, useValue: mockBuildConfigStore },
+        { provide: BuildStore, useVale: mockBuildStore },
+        { provide: APIsStore, useVale: mockAPIsStore }
+      ],
+      schemas: [ NO_ERRORS_SCHEMA ]
+    });
   }));
 
   beforeEach(() => {

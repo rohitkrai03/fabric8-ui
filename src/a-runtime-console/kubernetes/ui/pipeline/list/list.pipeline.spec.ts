@@ -1,5 +1,5 @@
 /* tslint:disable:no-unused-variable */
-import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MomentModule } from 'angular2-moment';
@@ -7,14 +7,7 @@ import { PipelinesListComponent } from './list.pipeline.component';
 
 import { BuildConfigService } from '../../../service/buildconfig.service';
 
-
-@Component({
-  selector: 'build-stage-view',
-  template: ''
-})
-class MockBuildStageViewComponent { }
-
-fdescribe('PipelinesListComponent', () => {
+describe('PipelinesListComponent', () => {
   let component: PipelinesListComponent;
   let fixture: ComponentFixture<PipelinesListComponent>;
   let mockBuildConfigService: any = jasmine.createSpy('BuildConfigService');
@@ -26,7 +19,6 @@ fdescribe('PipelinesListComponent', () => {
         MomentModule
       ],
       declarations: [
-        MockBuildStageViewComponent,
         PipelinesListComponent
       ],
       providers: [

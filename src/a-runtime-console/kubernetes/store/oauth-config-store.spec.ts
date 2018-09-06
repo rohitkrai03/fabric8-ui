@@ -89,19 +89,14 @@ describe('OauthConfigStore', () => {
           {
             // provide OAuthConfigStore with a factory inside the fakeAsync zone
             // so the mockBackend can catch http requests made inside the constructor
-            provide: OAuthConfigStore, useFactory: fakeAsync((
+            provide: OAuthConfigStore, useFactory: (
               http: HttpClient,
-              controller: HttpTestingController,
               logger: Logger,
               errorHandler: ErrorHandler,
               notifications: NotificationsService
             ) => {
-              const req = controller.expectOne('/_config/oauth.json');
-              expect(req.request.method).toBe('GET');
-              req.flush(data);
-
               return new OAuthConfigStore(http, mockUserService, logger, errorHandler, notifications);
-            }),
+            },
             deps: [HttpClient, HttpTestingController, Logger, ErrorHandler, NotificationsService]
           }
         ]
@@ -126,6 +121,10 @@ describe('OauthConfigStore', () => {
           }));
         }
       }));
+
+      const req = controller.expectOne('/_config/oauth.json');
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
     });
   });
 
@@ -152,19 +151,14 @@ describe('OauthConfigStore', () => {
           {
             // provide OAuthConfigStore with a factory inside the fakeAsync zone
             // so the mockBackend can catch http requests made inside the constructor
-            provide: OAuthConfigStore, useFactory: fakeAsync((
+            provide: OAuthConfigStore, useFactory: (
               http: HttpClient,
-              controller: HttpTestingController,
               logger: Logger,
               errorHandler: ErrorHandler,
               notifications: NotificationsService
             ) => {
-              const req = controller.expectOne('/_config/oauth.json');
-              expect(req.request.method).toBe('GET');
-              req.flush(data);
-
               return new OAuthConfigStore(http, mockUserService, logger, errorHandler, notifications);
-            }),
+            },
             deps: [HttpClient, HttpTestingController, Logger, ErrorHandler, NotificationsService]
           }
         ]
@@ -189,6 +183,10 @@ describe('OauthConfigStore', () => {
           }));
         }
       }));
+
+      const req = controller.expectOne('/_config/oauth.json');
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
     });
   });
 
@@ -215,19 +213,14 @@ describe('OauthConfigStore', () => {
           {
             // provide OAuthConfigStore with a factory inside the fakeAsync zone
             // so the mockBackend can catch http requests made inside the constructor
-            provide: OAuthConfigStore, useFactory: fakeAsync((
+            provide: OAuthConfigStore, useFactory: (
               http: HttpClient,
-              controller: HttpTestingController,
               logger: Logger,
               errorHandler: ErrorHandler,
               notifications: NotificationsService
             ) => {
-              const req = controller.expectOne('/_config/oauth.json');
-              expect(req.request.method).toBe('GET');
-              req.flush(data);
-
               return new OAuthConfigStore(http, mockUserService, logger, errorHandler, notifications);
-            }),
+            },
             deps: [HttpClient, HttpTestingController, Logger, ErrorHandler, NotificationsService]
           }
         ]
@@ -246,6 +239,10 @@ describe('OauthConfigStore', () => {
         expect(mockNotificationsService.message).toHaveBeenCalled();
         done();
       }));
+
+      const req = controller.expectOne('/_config/oauth.json');
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
     });
   });
 
@@ -272,19 +269,14 @@ describe('OauthConfigStore', () => {
           {
             // provide OAuthConfigStore with a factory inside the fakeAsync zone
             // so the mockBackend can catch http requests made inside the constructor
-            provide: OAuthConfigStore, useFactory: fakeAsync((
+            provide: OAuthConfigStore, useFactory: (
               http: HttpClient,
-              controller: HttpTestingController,
               logger: Logger,
               errorHandler: ErrorHandler,
               notifications: NotificationsService
             ) => {
-              const req = controller.expectOne('/_config/oauth.json');
-              expect(req.request.method).toBe('GET');
-              req.flush(data);
-
               return new OAuthConfigStore(http, mockUserService, logger, errorHandler, notifications);
-            }),
+            },
             deps: [HttpClient, HttpTestingController, Logger, ErrorHandler, NotificationsService]
           }
         ]
@@ -304,6 +296,10 @@ describe('OauthConfigStore', () => {
           done();
         }
       }));
+
+      const req = controller.expectOne('/_config/oauth.json');
+      expect(req.request.method).toBe('GET');
+      req.flush(data);
     });
   });
 });

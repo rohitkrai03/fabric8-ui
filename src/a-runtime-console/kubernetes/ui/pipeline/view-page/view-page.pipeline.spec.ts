@@ -1,26 +1,19 @@
 /* tslint:disable:no-unused-variable */
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { FormsModule } from '@angular/forms';
 import { RouterTestingModule } from '@angular/router/testing';
 import { MomentModule } from 'angular2-moment';
-import { ModalModule } from 'ngx-modal';
-import { RestangularModule } from 'ngx-restangular';
-import { Fabric8CommonModule } from '../../../../common/common.module';
-import { KubernetesStoreModule } from '../../../kubernetes.store.module';
-import { PipelineViewToolbarComponent } from '../view-toolbar/view-toolbar.pipeline.component';
-import { PipelineViewWrapperComponent } from '../view-wrapper/view-wrapper.pipeline.component';
-import { PipelineViewComponent } from '../view/view.pipeline.component';
-import { TestAppModule } from './../../../../app.test.module';
-import { StageTimePipe } from './../build-stage-view/stage-time.pipe';
 import { PipelineViewPage } from './view-page.pipeline.component';
 
-import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { BuildConfigStore } from '../../../store/buildconfig.store';
 
 describe('PipelineViewPage', () => {
   let pipeline: PipelineViewPage;
   let fixture: ComponentFixture<PipelineViewPage>;
 
   beforeEach(async(() => {
+    let mockBuildConfigStore: any = jasmine.createSpy('BuildConfigService');
+    mockBuildConfigStore.load = () => {};
     TestBed
       .configureTestingModule({
         imports: [
@@ -28,14 +21,13 @@ describe('PipelineViewPage', () => {
           MomentModule
         ],
         declarations: [
-          PipelineViewPage,
-          PipelineViewWrapperComponent,
-          PipelineViewToolbarComponent,
-          PipelineViewComponent,
-          StageTimePipe
-        ]
-      })
-      .compileComponents();
+          PipelineViewPage
+        ],
+        providers: [
+          { provide: BuildConfigStore, useValue: mockBuildConfigStore }
+        ],
+        schemas: [ NO_ERRORS_SCHEMA ]
+      });
   }));
 
   beforeEach(() => {
