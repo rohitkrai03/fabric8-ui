@@ -17,17 +17,20 @@ describe('PipelinesListPage', () => {
   beforeEach(async(() => {
     let mockBuildConfigStore: any = jasmine.createSpy('BuildConfigService');
     mockBuildConfigStore.loading = Observable.of(false);
+    mockBuildConfigStore.list = Observable.empty();
     let mockBuildStore: any = jasmine.createSpy('BuildStore');
     mockBuildStore.loading = Observable.of(true);
-    let mockAPIsStore: any = jasmine.createSpy('APIsStore');
+    mockBuildStore.list = Observable.empty();
+    let mockAPIsStore: any = jasmine.createSpyObj('APIsStore', ['load']);
+    mockAPIsStore.loading = Observable.empty();
     TestBed.configureTestingModule({
       declarations: [
         PipelinesListPage
       ],
       providers: [
         { provide: BuildConfigStore, useValue: mockBuildConfigStore },
-        { provide: BuildStore, useVale: mockBuildStore },
-        { provide: APIsStore, useVale: mockAPIsStore }
+        { provide: BuildStore, useValue: mockBuildStore },
+        { provide: APIsStore, useValue: mockAPIsStore }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
