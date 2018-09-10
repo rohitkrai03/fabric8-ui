@@ -1,52 +1,37 @@
 /* tslint:disable:no-unused-variable */
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { Observable } from 'rxjs';
+
 import { PipelinesFullHistoryPage } from './full-history-page.pipeline.component';
 
-import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { APIsStore } from '../../../store/apis.store';
 import { BuildStore } from '../../../store/build.store';
 import { BuildConfigStore } from '../../../store/buildconfig.store';
-
-import { BuildService } from '../../../service/build.service';
-import { BuildConfigService } from '../../../service/buildconfig.service';
-import { DevNamespaceScope, TestDevNamespaceScope } from '../../../service/devnamespace.scope';
 
 describe('PipelinesFullHistoryPage', () => {
   let component: PipelinesFullHistoryPage;
   let fixture: ComponentFixture<PipelinesFullHistoryPage>;
 
   beforeEach(async(() => {
-    let mockBuildConfigService: any = jasmine.createSpy('BuildConfigService');
-    let mockDevNameSpaceScrope: any = jasmine.createSpy('DevNamespaceScope');
-    let mockBuildService: any = jasmine.createSpy('BuildService');
-    let mockAPIsStore: any = jasmine.createSpy('APIsStore');
+    let mockBuildConfigStore: any = jasmine.createSpy('BuildConfigStore');
+    mockBuildConfigStore.loading = Observable.of(true);
+    mockBuildConfigStore.list = Observable.empty();
+    let mockBuildStore: any = jasmine.createSpy('BuildStore');
+    mockBuildStore.loading = Observable.of(true);
+    mockBuildStore.list = Observable.empty();
+    let mockAPIsStore: any = jasmine.createSpyObj('APIsStore', ['load']);
+    mockAPIsStore.loading = Observable.empty();
+
     TestBed.configureTestingModule({
       declarations: [
         PipelinesFullHistoryPage
       ],
       providers: [
-        {
-          provide: BuildConfigStore, useFactory: (
-            buildConfigService: BuildConfigService,
-            namespaceScope: DevNamespaceScope
-          ) => {
-            return new BuildConfigStore(buildConfigService, namespaceScope);
-          },
-          deps: [BuildConfigService, DevNamespaceScope]
-        },
-        { provide: BuildConfigService, useValue: mockBuildConfigService},
-        { provide: BuildService, useValue: mockBuildService},
-        { provide: DevNamespaceScope, useClass: TestDevNamespaceScope },
-        {
-          provide: BuildStore, useFactory: (
-            buildService: BuildService,
-            namespaceScope: DevNamespaceScope
-          ) => {
-            return new BuildStore(buildService, namespaceScope);
-          },
-          deps: [BuildService, DevNamespaceScope]
-        },
-        { provide: APIsStore, useVale: mockAPIsStore }
+        { provide: BuildConfigStore, useValue: mockBuildConfigStore },
+        { provide: BuildStore, useValue: mockBuildStore },
+        { provide: APIsStore, useValue: mockAPIsStore }
       ],
       schemas: [ NO_ERRORS_SCHEMA ]
     });
