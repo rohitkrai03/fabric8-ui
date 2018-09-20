@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
-import { cluster } from 'd3';
-import { TooltipModule } from 'ngx-bootstrap';
 import { Contexts } from 'ngx-fabric8-wit';
 import { AuthenticationService } from 'ngx-login-client';
 import { UserService } from 'ngx-login-client';
 import { empty as observableEmpty, Observable,  of ,  throwError as observableThrowError } from 'rxjs';
 import { initContext, TestContext } from 'testing/test-context';
+
+import { TooltipModule } from 'ngx-bootstrap';
 import { ProviderService } from '../../../shared/account/provider.service';
 import { ConnectedAccountsComponent } from './connected-accounts.component';
 
