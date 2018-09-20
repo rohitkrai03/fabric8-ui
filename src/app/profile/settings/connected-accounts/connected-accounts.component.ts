@@ -25,6 +25,7 @@ export class ConnectedAccountsComponent implements OnDestroy, OnInit {
   userName: string;
   contextUserName: string;
   cluster: string;
+  clusterName: string;
 
   constructor(private contexts: Contexts,
     private auth: AuthenticationService,
@@ -43,6 +44,7 @@ export class ConnectedAccountsComponent implements OnDestroy, OnInit {
         this.openShiftLinked = isConnected;
       }));
       this.cluster = user.attributes.cluster;
+      this.clusterName = this.cluster.split('.')[1];
     }
   }
 

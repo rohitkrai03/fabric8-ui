@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+import { cluster } from 'd3';
+import { TooltipModule } from 'ngx-bootstrap';
 import { Contexts } from 'ngx-fabric8-wit';
 import { AuthenticationService } from 'ngx-login-client';
 import { UserService } from 'ngx-login-client';
@@ -18,7 +20,8 @@ describe('Connected Accounts Component', () => {
   const ctx: any = {
     user: {
       attributes: {
-        username: expectedOsoUser
+        username: expectedOsoUser,
+        cluster: 'http://example.cluster-name.something.com'
       }
     }
   };
@@ -44,7 +47,9 @@ describe('Connected Accounts Component', () => {
     });
 
     const testContext = initContext(ConnectedAccountsComponent, SampleTestComponent,  {
-      providers: [ { provide: AuthenticationService, useValue: authMock },
+      imports: [ TooltipModule.forRoot() ],
+      providers: [
+        { provide: AuthenticationService, useValue: authMock },
         { provide: Contexts, useValue: contextsMock },
         { provide: UserService, useValue: userServiceMock },
         { provide: ProviderService, useValue: providersMock }]
@@ -60,6 +65,9 @@ describe('Connected Accounts Component', () => {
       expect(actualText).toMatch(new RegExp('OpenShift\\s+' + expectedOsoUser));
     });
 
+    it('should parse cluster name from cluster url', function(this: Context) {
+      expect(this.testedDirective.clusterName).toBe('cluster-name');
+    });
   });
 
   describe('User has both Github and OpenShift accounts connected', () => {
@@ -81,7 +89,9 @@ describe('Connected Accounts Component', () => {
     });
 
     const testContext = initContext(ConnectedAccountsComponent, SampleTestComponent,  {
-      providers: [ { provide: AuthenticationService, useValue: authMock },
+      imports: [ TooltipModule.forRoot() ],
+      providers: [
+        { provide: AuthenticationService, useValue: authMock },
         { provide: Contexts, useValue: contextsMock },
         { provide: UserService, useValue: userServiceMock },
         { provide: ProviderService, useValue: providersMock }]
