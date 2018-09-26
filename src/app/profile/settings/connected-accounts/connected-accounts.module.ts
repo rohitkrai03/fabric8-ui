@@ -4,6 +4,8 @@ import { RouterModule } from '@angular/router';
 import { TooltipModule } from 'ngx-bootstrap';
 import { ConnectedAccountsRoutingModule } from './connected-accounts-routing.module';
 import { ConnectedAccountsComponent } from './connected-accounts.component';
+
+import { TenantService } from '../../services/tenant.service';
 @NgModule({
   imports: [
     RouterModule,
@@ -12,6 +14,7 @@ import { ConnectedAccountsComponent } from './connected-accounts.component';
     TooltipModule.forRoot()
   ],
   declarations: [ConnectedAccountsComponent],
+  providers: [TenantService],
   exports: [ConnectedAccountsComponent]
 })
 export class ConnectedAccountsModule { }
