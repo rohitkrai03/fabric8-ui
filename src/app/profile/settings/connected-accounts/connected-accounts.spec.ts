@@ -76,7 +76,7 @@ describe('Connected Accounts Component', () => {
 
     it('should have OpenShift connection indicated', function() {
       const actualText = testContext.testedElement.textContent;
-      expect(actualText).toMatch(new RegExp('OpenShift\\s+' + expectedOsoUser));
+      expect(actualText).toMatch(new RegExp(expectedOsoUser));
     });
 
     it('should set cluster name and cluster url by calling tenant service', function(this: Context) {
@@ -116,7 +116,7 @@ describe('Connected Accounts Component', () => {
 
     it('should have OpenShift connection indicated', function() {
       const actualText = testContext.testedElement.textContent;
-      expect(actualText).toMatch(new RegExp('OpenShift\\s+' + expectedOsoUser));
+      expect(actualText).toMatch(new RegExp(expectedOsoUser));
     });
   });
 });
