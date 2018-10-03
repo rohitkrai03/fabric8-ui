@@ -182,7 +182,6 @@ export type StoreType = {
     ApiLocatorService,
     AreaService,
     authApiUrlProvider,
-    witApiProxyProvider,
     AuthenticationService,
     AuthGuard,
     AuthUserResolve,
@@ -245,6 +244,7 @@ export type StoreType = {
     UserService,
     WindowService,
     witApiUrlProvider,
+    witApiProxyProvider,
     togglesApiUrlProvider,
     realmProvider
   ],
