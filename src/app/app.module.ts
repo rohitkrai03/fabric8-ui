@@ -63,7 +63,10 @@ import { AboutService }                  from './shared/about.service';
 import { ProviderService }               from './shared/account/provider.service';
 import { AnalyticService }               from './shared/analytics.service';
 import { ApiLocatorService }             from './shared/api-locator.service';
-import { authApiUrlProvider }            from './shared/auth-api.provider';
+import {
+  authApiUrlProvider,
+  witApiProxyProvider
+} from './shared/auth-api.provider';
 import { AuthGuard }                     from './shared/auth-guard.service';
 import { BrandingService }               from './shared/branding.service';
 import { AuthUserResolve }               from './shared/common.resolver';
@@ -179,6 +182,7 @@ export type StoreType = {
     ApiLocatorService,
     AreaService,
     authApiUrlProvider,
+    witApiProxyProvider,
     AuthenticationService,
     AuthGuard,
     AuthUserResolve,
