@@ -205,8 +205,6 @@ export type StoreType = {
     FeatureAcknowledgementService,
     Fabric8RuntimeConsoleResolver,
     Fabric8RuntimeConsoleService,
-    RequestCache,
-    HttpInterceptorProviders,
     fabric8UIConfigProvider,
     {
       provide: OnLogin,
@@ -214,6 +212,7 @@ export type StoreType = {
     },
     forgeApiUrlProvider,
     GettingStartedService,
+    HttpInterceptorProviders,
     jenkinsApiUrlProvider,
     Logger,
     LoginService,
@@ -229,6 +228,8 @@ export type StoreType = {
     ProfileResolver,
     ProfileService,
     ProviderService,
+    realmProvider,
+    RequestCache,
     SpacesService,
     SpaceService,
     {
@@ -241,12 +242,11 @@ export type StoreType = {
       useClass: Fabric8UISpaceNamespace
     },
     ssoApiUrlProvider,
+    togglesApiUrlProvider,
     UserService,
     WindowService,
     witApiUrlProvider,
-    witApiProxyProvider,
-    togglesApiUrlProvider,
-    realmProvider
+    witApiProxyProvider
   ],
   schemas: [],
   bootstrap: [AppComponent]
