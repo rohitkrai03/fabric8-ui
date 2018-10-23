@@ -1,8 +1,10 @@
-import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { find } from 'lodash';
 import { Broadcaster } from 'ngx-base';
+import { ModalDirective } from 'ngx-bootstrap';
 import { CollaboratorService, Contexts, Space, Spaces, SpaceService } from 'ngx-fabric8-wit';
 import { User, UserService } from 'ngx-login-client';
-import { Observable,  of as observableOf, Subject } from 'rxjs';
+import { Observable,  of as observableOf, Subject, Subscription } from 'rxjs';
 import { debounceTime, map, switchMap, tap } from 'rxjs/operators';
 import { SpaceNamespaceService } from '../../shared/runtime-console/space-namespace.service';
 
@@ -12,17 +14,19 @@ import { SpaceNamespaceService } from '../../shared/runtime-console/space-namesp
   templateUrl: './edit-space-description-widget.component.html',
   styleUrls: ['./edit-space-description-widget.component.less']
 })
-export class EditSpaceDescriptionWidgetComponent implements OnInit {
+export class EditSpaceDescriptionWidgetComponent implements OnInit, OnDestroy {
 
   @Input() userOwnsSpace: boolean;
   space: Space;
   spaceOwner: Observable<string>;
-  collaboratorCount: Observable<number>;
+  collaborators: User[];
 
+  private subscriptions: Subscription[] = [];
   private _descriptionUpdater: Subject<string> = new Subject();
 
   private loggedInUser: User;
   @ViewChild('description') description: any;
+  @ViewChild('modalAdd') modalAdd: ModalDirective;
 
   private isEditing: boolean = false;
 
@@ -37,16 +41,20 @@ export class EditSpaceDescriptionWidgetComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.loggedInUser.subscribe(val => this.loggedInUser = val);
-    this.spaces.current
+    this.subscriptions.push(this.userService.loggedInUser.subscribe(val => this.loggedInUser = val));
+    this.subscriptions.push(this.spaces.current
       .subscribe(space => {
         this.space = space;
         if (space) {
-          this.collaboratorCount = this.collaboratorService.getInitialBySpaceId(space.id).pipe(map(c => c.length));
+          this.subscriptions.push(
+            this.collaboratorService.getInitialBySpaceId(space.id).subscribe(users => {
+              this.collaborators = users;
+            })
+          );
           this.spaceOwner = this.userService.getUserByUserId(space.relationships['owned-by'].data.id).pipe(map(u => u.attributes.username));
         }
-      });
-    this._descriptionUpdater.pipe(
+      }));
+    this.subscriptions.push(this._descriptionUpdater.pipe(
       debounceTime(1000),
       map(description => {
         let patch = {
@@ -71,7 +79,8 @@ export class EditSpaceDescriptionWidgetComponent implements OnInit {
         tap(updated => this.broadcaster.broadcast('spaceUpdated', updated)),
         switchMap(updated => this.spaceNamespaceService.updateConfigMap(observableOf(updated))))
       ))
-      .subscribe();
+      .subscribe()
+    );
   }
 
   onUpdateDescription(description) {
@@ -96,6 +105,25 @@ export class EditSpaceDescriptionWidgetComponent implements OnInit {
 
   isEditable(): Observable<boolean> {
     return this.contexts.current.pipe(map(val => val.user.id === this.loggedInUser.id));
+  }
+
+  launchAddCollaborators() {
+    this.modalAdd.show();
+  }
+
+  addCollaboratorsToParent(addedUsers: User[]) {
+    addedUsers.forEach(user => {
+      let matchingUser = find(this.collaborators, (existing) => {
+        return existing.id === user.id;
+      });
+      if (!matchingUser) {
+        this.collaborators.push(user);
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    this.subscriptions.forEach((subscription: Subscription): void => subscription.unsubscribe());
   }
 
 }
