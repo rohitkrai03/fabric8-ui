@@ -69,6 +69,11 @@ export class AddCollaboratorsDialogComponent implements OnInit {
   }
 
   private sortCollaborators(): void {
-    this.collaborators.sort((a: User, b: User): number => a.attributes.username.localeCompare(b.attributes.username));
+    this.collaborators.sort((a: User, b: User): number => {
+      return (
+        a.attributes.fullName.localeCompare(b.attributes.fullName) ||
+        a.attributes.username.localeCompare(b.attributes.username)
+      );
+    });
   }
 }
