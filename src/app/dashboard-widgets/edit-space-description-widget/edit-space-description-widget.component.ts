@@ -40,18 +40,22 @@ export class EditSpaceDescriptionWidgetComponent implements OnInit, OnDestroy {
     private collaboratorService: CollaboratorService
   ) { }
 
-  ngOnInit() {
-    this.subscriptions.push(this.userService.loggedInUser.subscribe(val => this.loggedInUser = val));
+  ngOnInit(): void {
+    this.subscriptions.push(this.userService.loggedInUser.subscribe((val: User) => this.loggedInUser = val));
     this.subscriptions.push(this.spaces.current
       .subscribe(space => {
         this.space = space;
         if (space) {
           this.subscriptions.push(
-            this.collaboratorService.getInitialBySpaceId(space.id).subscribe(users => {
+            this.collaboratorService.getInitialBySpaceId(space.id).subscribe((users: User[]) => {
               this.collaborators = users;
             })
           );
-          this.spaceOwner = this.userService.getUserByUserId(space.relationships['owned-by'].data.id).pipe(map(u => u.attributes.username));
+          this.spaceOwner = this.userService
+            .getUserByUserId(space.relationships['owned-by'].data.id)
+            .pipe(
+              map((u: User) => u.attributes.username)
+            );
         }
       }));
     this.subscriptions.push(this._descriptionUpdater.pipe(
@@ -83,23 +87,23 @@ export class EditSpaceDescriptionWidgetComponent implements OnInit, OnDestroy {
     );
   }
 
-  onUpdateDescription(description) {
+  onUpdateDescription(description): void {
     this._descriptionUpdater.next(description);
   }
 
-  preventDef(event: any) {
+  preventDef(event: any): void {
     event.preventDefault();
   }
 
-  saveDescription() {
+  saveDescription(): void {
     this._descriptionUpdater.next(this.description.nativeElement.value);
   }
 
-  stopEditingDescription() {
+  stopEditingDescription(): void {
     this.isEditing = false;
   }
 
-  startEditingDescription() {
+  startEditingDescription(): void {
     this.isEditing = true;
   }
 
@@ -107,13 +111,13 @@ export class EditSpaceDescriptionWidgetComponent implements OnInit, OnDestroy {
     return this.contexts.current.pipe(map(val => val.user.id === this.loggedInUser.id));
   }
 
-  launchAddCollaborators() {
+  launchAddCollaborators(): void {
     this.modalAdd.show();
   }
 
-  addCollaboratorsToParent(addedUsers: User[]) {
-    addedUsers.forEach(user => {
-      let matchingUser = find(this.collaborators, (existing) => {
+  addCollaboratorsToParent(addedUsers: User[]): void {
+    addedUsers.forEach((user: User) => {
+      let matchingUser = find(this.collaborators, (existing: User) => {
         return existing.id === user.id;
       });
       if (!matchingUser) {
@@ -122,7 +126,7 @@ export class EditSpaceDescriptionWidgetComponent implements OnInit, OnDestroy {
     });
   }
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this.subscriptions.forEach((subscription: Subscription): void => subscription.unsubscribe());
   }
 
