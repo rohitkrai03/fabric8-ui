@@ -68,10 +68,10 @@ export class AddSpaceOverlayComponent implements OnInit {
    */
   createSpace() {
     if (!this.userService.currentLoggedInUser && !this.userService.currentLoggedInUser.id) {
-      this.notifications.message(<Notification> {
+      this.notifications.message({
         message: `Failed to create "${this.space.name}". Invalid user: "${this.userService.currentLoggedInUser}"`,
         type: NotificationType.DANGER
-      });
+      } as Notification);
       return;
     }
 
@@ -99,10 +99,10 @@ export class AddSpaceOverlayComponent implements OnInit {
           this.hideAddSpaceOverlay();
         },
         err => {
-          this.notifications.message(<Notification> {
+          this.notifications.message({
             message: `Failed to create "${this.space.name}"`,
             type: NotificationType.DANGER
-        });
+        } as Notification);
     }));
   }
 
