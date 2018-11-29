@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@ang
 import { cloneDeep } from 'lodash';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { Area, AreaService, Context } from 'ngx-fabric8-wit';
+import { UserService } from 'ngx-login-client';
 import { Action, ActionConfig } from 'patternfly-ng/action';
 import { EmptyStateConfig } from 'patternfly-ng/empty-state';
 import { Filter, FilterEvent } from 'patternfly-ng/filter';
@@ -50,10 +51,17 @@ export class AreasComponent implements OnInit, OnDestroy {
   subscriptions: Subscription[] = [];
   resultsCount: number = 0;
   treeListConfig: TreeListConfig;
+  userOwnsSpace: boolean;
 
-  constructor(private contexts: ContextService,
-              private areaService: AreaService) {
-    this.contexts.current.subscribe(val => this.context = val);
+  constructor(
+    private contexts: ContextService,
+    private areaService: AreaService,
+    private userService: UserService
+  ) {
+    this.contexts.current.subscribe((context: Context) => {
+      this.context = context;
+      this.userOwnsSpace = context.space.relationships['owned-by'].data.id === this.userService.currentLoggedInUser.id;
+    });
   }
 
   ngOnInit() {

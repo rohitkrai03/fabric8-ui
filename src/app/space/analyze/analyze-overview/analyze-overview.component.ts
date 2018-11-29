@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
 import { Broadcaster } from 'ngx-base';
 import { Context, Contexts, Space } from 'ngx-fabric8-wit';
 import { Feature, FeatureTogglesService } from 'ngx-feature-flag';
-import { AuthenticationService, User, UserService } from 'ngx-login-client';
+import { AuthenticationService, PermissionService, User, UserService } from 'ngx-login-client';
 import { Subscription } from 'rxjs';
 
 
@@ -18,16 +18,26 @@ export class AnalyzeOverviewComponent implements OnInit, OnDestroy {
   context: Context;
   private space: Space;
   private _userOwnsSpace: boolean = false;
+  private _userIsSpaceAdmin: boolean = false;
 
-  constructor(private authentication: AuthenticationService,
-              private broadcaster: Broadcaster,
-              private contexts: Contexts,
-              private userService: UserService) { }
+  constructor(
+    private authentication: AuthenticationService,
+    private broadcaster: Broadcaster,
+    private contexts: Contexts,
+    private userService: UserService,
+    private permissionService: PermissionService
+  ) { }
 
   ngOnInit() {
     this.subscriptions.push(this.contexts.current.subscribe((ctx: Context) => {
       this.context = ctx;
       this.space = ctx.space;
+      this.subscriptions.push(
+        this.permissionService.hasScope(ctx.space.id, 'manage')
+          .subscribe((isAdmin: boolean) => {
+            this._userIsSpaceAdmin = isAdmin;
+          })
+      );
     }));
 
     this.subscriptions.push(this.userService.loggedInUser.subscribe((user: User) => {
@@ -63,6 +73,10 @@ export class AnalyzeOverviewComponent implements OnInit, OnDestroy {
       return this.context.space.relationships['owned-by'].data.id === this.loggedInUser.id;
     }
     return false;
+  }
+
+  get userIsSpaceAdmin(): boolean {
+    return this._userIsSpaceAdmin;
   }
 
   get userOwnsSpace(): boolean {

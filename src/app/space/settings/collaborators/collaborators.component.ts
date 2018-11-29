@@ -3,7 +3,8 @@ import { find } from 'lodash';
 import { Logger } from 'ngx-base';
 import { ModalDirective } from 'ngx-bootstrap/modal';
 import { CollaboratorService, Context } from 'ngx-fabric8-wit';
-import { User } from 'ngx-login-client';
+import { PermissionService, User } from 'ngx-login-client';
+import { UserRoleData } from 'ngx-login-client/auth/permission.service';
 import { EmptyStateConfig } from 'patternfly-ng/empty-state';
 import { ListConfig } from 'patternfly-ng/list';
 import { Subscription } from 'rxjs';
@@ -29,15 +30,17 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
 
   context: Context;
   collaborators: User[];
+  adminCollaborators: Array<string> = [];
 
   constructor(
     private contexts: ContextService,
     private collaboratorService: CollaboratorService,
+    private permissionService: PermissionService,
     private errorHandler: ErrorHandler,
     private logger: Logger
   ) {
-    this.subscriptions.push(this.contexts.current.subscribe(val => {
-      this.context = val;
+    this.subscriptions.push(this.contexts.current.subscribe((ctx: Context) => {
+      this.context = ctx;
     }));
   }
 
@@ -52,6 +55,13 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
       useExpandItems: false
     } as ListConfig;
     this.collaborators = [];
+    this.subscriptions.push(
+      this.permissionService
+        .getUsersByRole(this.context.space.id, 'admin')
+        .subscribe((users: UserRoleData[]) => {
+          this.adminCollaborators = users.map(user => user.assignee_id);
+        })
+    );
   }
 
   initCollaborators(event: any): void {
@@ -108,8 +118,30 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
         .subscribe(
           () => {
             this.collaborators.splice(this.collaborators.indexOf(this.userToRemove), 1);
+            this.adminCollaborators.splice(this.adminCollaborators.indexOf(this.userToRemove.id), 1);
             this.userToRemove = null;
             this.modalDelete.hide();
+          },
+          (err: any): void => {
+            this.errorHandler.handleError(err);
+            this.logger.error(err);
+          }
+        )
+    );
+  }
+
+  assignUserRole(userId: string, roleName: string) {
+    // admin, contributor
+    this.subscriptions.push(
+      this.permissionService
+        .assignRole(this.context.space.id, roleName, [userId])
+        .subscribe(
+          () => {
+            if (roleName === 'admin') {
+              this.adminCollaborators.push(userId);
+            } else {
+              this.adminCollaborators.splice(this.adminCollaborators.indexOf(userId), 1);
+            }
           },
           (err: any): void => {
             this.errorHandler.handleError(err);
@@ -133,6 +165,10 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
 
   onShowHandler() {
     this.addCollabDialog.onOpen();
+  }
+
+  isSpaceOwner(userId: string) {
+    return this.context.space.relationships['owned-by'].data.id === userId;
   }
 
   private sortCollaborators(): void {
