@@ -13,7 +13,7 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./analyze-overview.component.less']
 })
 export class AnalyzeOverviewComponent implements OnInit, OnDestroy {
-  private subscriptions: Subscription[] = [];
+  private subscriptions: Subscription = new Subscription();
   private loggedInUser: User;
   context: Context;
   private space: Space;
@@ -29,10 +29,10 @@ export class AnalyzeOverviewComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.subscriptions.push(this.contexts.current.subscribe((ctx: Context) => {
+    this.subscriptions.add(this.contexts.current.subscribe((ctx: Context) => {
       this.context = ctx;
       this.space = ctx.space;
-      this.subscriptions.push(
+      this.subscriptions.add(
         this.permissionService.hasScope(ctx.space.id, 'manage')
           .subscribe((isAdmin: boolean) => {
             this._userIsSpaceAdmin = isAdmin;
@@ -40,7 +40,7 @@ export class AnalyzeOverviewComponent implements OnInit, OnDestroy {
       );
     }));
 
-    this.subscriptions.push(this.userService.loggedInUser.subscribe((user: User) => {
+    this.subscriptions.add(this.userService.loggedInUser.subscribe((user: User) => {
       this.loggedInUser = user;
     }));
 
@@ -53,9 +53,7 @@ export class AnalyzeOverviewComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((sub: Subscription) => {
-      sub.unsubscribe();
-    });
+    this.subscriptions.unsubscribe();
   }
 
   showAddAppOverlay(): void {

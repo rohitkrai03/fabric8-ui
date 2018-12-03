@@ -21,7 +21,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
 
   private emptyStateConfig: EmptyStateConfig;
   private listConfig: ListConfig;
-  private subscriptions: Subscription[] = [];
+  private subscriptions: Subscription = new Subscription();
   private userToRemove: User;
 
   @ViewChild('addCollabDialog') addCollabDialog: AddCollaboratorsDialogComponent;
@@ -39,7 +39,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
     private errorHandler: ErrorHandler,
     private logger: Logger
   ) {
-    this.subscriptions.push(this.contexts.current.subscribe((ctx: Context) => {
+    this.subscriptions.add(this.contexts.current.subscribe((ctx: Context) => {
       this.context = ctx;
     }));
   }
@@ -55,7 +55,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
       useExpandItems: false
     } as ListConfig;
     this.collaborators = [];
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.permissionService
         .getUsersByRole(this.context.space.id, 'admin')
         .subscribe((users: UserRoleData[]) => {
@@ -67,7 +67,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
   initCollaborators(event: any): void {
     let pageSize = event.pageSize;
     pageSize = 20;
-    this.subscriptions.push(this.collaboratorService.getInitialBySpaceId(this.context.space.id, pageSize)
+    this.subscriptions.add(this.collaboratorService.getInitialBySpaceId(this.context.space.id, pageSize)
       .subscribe(
         (collaborators: User[]): void => {
           this.collaborators = collaborators;
@@ -82,7 +82,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
   }
 
   fetchMoreCollaborators($event): void {
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.collaboratorService.getNextCollaborators()
         .subscribe(
           (collaborators: User[]): void => {
@@ -100,7 +100,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.subscriptions.forEach((subscription: Subscription): void => subscription.unsubscribe());
+    this.subscriptions.unsubscribe();
   }
 
   launchAddCollaborators() {
@@ -113,7 +113,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
   }
 
   removeUser() {
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.collaboratorService.removeCollaborator(this.context.space.id, this.userToRemove.id)
         .subscribe(
           () => {
@@ -132,7 +132,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
 
   assignUserRole(userId: string, roleName: string) {
     // admin, contributor
-    this.subscriptions.push(
+    this.subscriptions.add(
       this.permissionService
         .assignRole(this.context.space.id, roleName, [userId])
         .subscribe(

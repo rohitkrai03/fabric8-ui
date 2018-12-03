@@ -50,14 +50,9 @@
                 <div class="list-pf-description">
                   {{item.attributes.email}}
                 </div>
-                <div *ngIf="adminCollaborators.includes(item.id) else contributor" class="list-pf-description">
-                  Admin
+                <div class="list-pf-description">
+                  {{ adminCollaborators.includes(item.id) ? 'Admin' : 'Contributor' }}
                 </div>
-                <ng-template #contributor>
-                  <div class="list-pf-description">
-                    Contributor
-                  </div>
-                </ng-template>
               </div>
             </div>
           </ng-template>
@@ -71,15 +66,15 @@
                   <a [routerLink]="['/', item.attributes.username]" class="secondary-action">View user</a>
                 </li>
                 <li *ngIf="!adminCollaborators.includes(item.id) else removeAdmin" role="menuitem">
-                  <a (click)="assignUserRole(item.id, 'admin')" class="secondary-action">Make admin</a>
+                  <a (click)="assignUserRole(item.id, 'admin')" class="secondary-action menu-item">Make admin</a>
                 </li>
                 <ng-template #removeAdmin>
                   <li *ngIf="!isSpaceOwner(item.id); else cannotRemoveAdmin" role="menuitem">
-                    <a (click)="assignUserRole(item.id, 'contributor')" class="secondary-action">Remove as admin</a>
+                    <a (click)="assignUserRole(item.id, 'contributor')" class="secondary-action menu-item">Remove as admin</a>
                   </li>
                   <ng-template #cannotRemoveAdmin>
                     <li class="disabled" title="Cannot remove owner of space as admin">
-                      <a class="secondary-action">Remove as admin</a>
+                      <a class="secondary-action menu-item">Remove as admin</a>
                     </li>
                   </ng-template>
                 </ng-template>
