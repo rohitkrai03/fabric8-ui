@@ -118,7 +118,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
         .subscribe(
           () => {
             this.collaborators.splice(this.collaborators.indexOf(this.userToRemove), 1);
-            this.adminCollaborators.splice(this.adminCollaborators.indexOf(this.userToRemove.id), 1);
+            this.adminCollaborators = this.adminCollaborators.filter(val => this.userToRemove.id !== val);
             this.userToRemove = null;
             this.modalDelete.hide();
           },
@@ -140,7 +140,7 @@ export class CollaboratorsComponent implements OnInit, OnDestroy {
             if (roleName === 'admin') {
               this.adminCollaborators.push(userId);
             } else {
-              this.adminCollaborators.splice(this.adminCollaborators.indexOf(userId), 1);
+              this.adminCollaborators = this.adminCollaborators.filter(val => userId !== val);
             }
           },
           (err: any): void => {
