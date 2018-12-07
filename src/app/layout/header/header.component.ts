@@ -44,7 +44,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
       'settings', function(headerComponent, menuItem) {
         const subFeature = menuItem['subFeature'];
         const allFeatures = headerComponent.context.user['features'];
-        if (headerComponent.menusService.isFeatureUserEnabled(subFeature, allFeatures)) {
+        if (subFeature && allFeatures && headerComponent.menusService.isFeatureUserEnabled(subFeature, allFeatures)) {
           return headerComponent.loggedInUserNotSpaceAdmin();
         }
         return headerComponent.checkContextUserEqualsLoggedInUser();
