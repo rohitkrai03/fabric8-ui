@@ -5,12 +5,17 @@ import {
   ErrorsDocument,
   ErrorObject,
   JsonApiError as IJsonApiError,
+  MetaObject,
 } from './models/jsonapi';
 
 export class JsonApiError extends Error implements IJsonApiError {
   constructor(readonly error: ErrorObject) {
     super(error.detail || error.title);
   }
+}
+
+export async function fetch(url: string): Promise<MetaObject> {
+  return (await axiosClient.get<MetaObject>(url)).data;
 }
 
 export async function fetchDocument(url: string): Promise<DataDocument> {
