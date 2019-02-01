@@ -14,13 +14,13 @@ export class JsonApiError extends Error implements IJsonApiError {
   }
 }
 
-export async function fetch(url: string): Promise<MetaObject> {
-  return (await axiosClient.get<MetaObject>(url)).data;
+export async function fetch<T>(url: string): Promise<T> {
+  return (await axiosClient.get<T>(url)).data;
 }
 
 export async function fetchDocument(url: string): Promise<DataDocument> {
   try {
-    return (await axiosClient.get<DataDocument>(url)).data;
+    return fetch<DataDocument>(url);
   } catch (e) {
     const axiosError = e as AxiosError;
     const { response } = axiosError;

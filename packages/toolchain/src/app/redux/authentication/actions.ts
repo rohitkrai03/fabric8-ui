@@ -78,7 +78,7 @@ export function login(url: string = `${window.location.pathname}${location.searc
 export function logout(): ThunkAction {
   return async function(dispatch) {
     const logoutUrl = getLogoutUrl(window.location.origin);
-    const result: { [key: string]: any } = await fetch(logoutUrl);
+    const result = await fetch<{ redirect_location: string }>(logoutUrl);
     setAuthToken(null);
     dispatch(redirect(result.redirect_location));
   };
